@@ -1,6 +1,6 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { prisma } from "./lib/prisma";
+import prisma from "./prisma";
 
 export const auth = betterAuth({
   // 配置数据库和prisma适配器

@@ -12,3 +12,14 @@ export const getLatestArticles = async () => {
 
   return result;
 };
+
+export const getPhotos = async () => {
+  "use cache";
+  cacheLife("weeks");
+
+  const result = await prisma.photo.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return result;
+};

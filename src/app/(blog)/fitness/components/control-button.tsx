@@ -29,7 +29,7 @@ export default function ControlButtons({
         className="w-14 h-14 rounded-full border-slate-300 hover:bg-slate-100"
         onClick={onRestart}
         title="Restart">
-        <RotateCcw className="w-7 h-7 text-slate-700" />
+        <RotateCcw className="w-7 h-7 text-[#92a2b7]" />
       </Button>
 
       {/* Play/Pause button */}
@@ -40,13 +40,13 @@ export default function ControlButtons({
           variant="outline"
           size="icon"
           disabled={!activeRoutineId}
-          className={`w-20 h-20 rounded-full shadow-lg transition-all ${isPaused ? "bg-linear-to-br from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600" : "bg-linear-to-br from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700"}`}
+          className={`w-20 h-20 rounded-full shadow-lg transition-all ${isPaused ? "bg-linear-to-br from-[#ef611a] to-[#fc7836] hover:from-[#fc7836] hover:to-[#ef611a]" : "bg-linear-to-br from-[#fc7836] to-[#ef611a] hover:from-[#ef611a] hover:to-[#fc7836]"}`}
           onClick={onTogglePause}
           title={isPaused ? "Play" : "Pause"}>
           {isPaused ? (
-            <Play className="w-10 h-10 ml-1" fill="white" />
+            <Play className="w-10 h-10 ml-1 text-white" fill="white" />
           ) : (
-            <Pause className="w-10 h-10" fill="white" />
+            <Pause className="w-10 h-10 text-white" fill="white" />
           )}
         </Button>
       </motion.div>
@@ -59,7 +59,7 @@ export default function ControlButtons({
         className="w-14 h-14 rounded-full border-slate-300 hover:bg-slate-100"
         onClick={onSkip}
         title="Skip to next">
-        <SkipForward className="w-7 h-7 text-slate-700" />
+        <SkipForward className="w-7 h-7 text-[#92a2b7]" />
       </Button>
     </div>
   );

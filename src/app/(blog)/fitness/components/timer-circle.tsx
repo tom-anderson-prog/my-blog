@@ -16,7 +16,7 @@ export default function TimerCircle({
   const ringColor = type === "REST" ? "#10b981" : "#f97316";
   const label = type === "REST" ? "Rest Remaining" : "Remaining";
   return (
-    <div className="relative w-80 h-80 md:w-105 md:h-105 mb-12">
+    <div className="relative w-80 h-80 md:w-105 md:h-105">
       <svg className="w-full h-full" viewBox="0 0 200 200">
         <circle
           cx="100"
@@ -24,7 +24,7 @@ export default function TimerCircle({
           r="90"
           fill="none"
           stroke="#e2e8f0"
-          strokeWidth="14"
+          strokeWidth="6"
         />
         <circle
           cx="100"
@@ -32,7 +32,7 @@ export default function TimerCircle({
           r="90"
           fill="none"
           stroke={ringColor}
-          strokeWidth="14"
+          strokeWidth="6"
           strokeDasharray={565}
           strokeDashoffset={565 * (1 - progress)}
           strokeLinecap="round"

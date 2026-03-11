@@ -37,8 +37,8 @@ export default function FitnessContentPage() {
     );
   }
   return (
-    <div className="min-h-screen bg-linear-to-b from-slate-50 to-slate-100 flex flex-col items-center justify-start pt-10 pb-24 px-4 md:px-8">
-      <div className="w-full max-w-4xl mb-8">
+    <div className="min-h-screen flex flex-col items-center justify-start pt-10 pb-12 px-4 md:px-8">
+      <div className="w-full max-w-4xl mb-4">
         <RoutineSelector />
       </div>
 

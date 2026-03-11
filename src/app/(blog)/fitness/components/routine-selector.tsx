@@ -16,15 +16,15 @@ export default function RoutineSelector() {
     useWorkoutStore();
 
   return (
-    <div className="text-center mb-8">
-      <div className="text-sm text-slate-500 tracking-wider mb-1">
+    <div className="flex flex-col items-center justify-start mb-4">
+      <div className="text-sm text-slate-500 tracking-wider mb-2">
         SELECT ROUTINE{" "}
-        <span className="text-orange-600 font-medium">
-          ACTIVE:{activeRoutine?.name}
+        <span className="text-[#ef611a] font-medium">
+          ACTIVE: {activeRoutine?.name}
         </span>
       </div>
       <Select onValueChange={(e) => setActiveRoutine(Number(e))}>
-        <SelectTrigger className="w-full max-w-48">
+        <SelectTrigger className="w-full md:w-70 max-w-72">
           <SelectValue placeholder="Select a routine" />
         </SelectTrigger>
         <SelectContent>

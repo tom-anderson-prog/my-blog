@@ -1,5 +1,6 @@
 import { cacheLife } from "next/cache";
 import prisma from "./prisma";
+import { Routine } from "./types";
 
 export const getLatestArticles = async () => {
   "use cache";

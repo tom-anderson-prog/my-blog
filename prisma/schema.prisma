@@ -125,3 +125,38 @@ model Photo {
 
   @@map("photos")
 }
+
+// ==============================
+// Fitness Models
+// ==============================
+
+model Routine {
+  id Int @id @default(autoincrement())
+  name String
+  isEnabled Boolean @default(true) @map("is_enabled")
+  repeatCount Int @default(1) @map("repeat_count")
+  steps Json?
+  totalDuration Int? @map("total_duration")
+
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @default(now()) @map("updated_at")
+
+  workoutSession WorkoutSession[]
+  @@map("routines")
+}
+
+model WorkoutSession {
+  id Int @id @default(autoincrement())
+  routineId Int
+  routineName String @map("routine_name")
+  startedAt DateTime @default(now()) @map("started_at")
+  endedAt DateTime @default(now()) @map("ended_at")
+  duration Int?
+  completed Boolean @default(false)
+
+  routine Routine @relation(fields: [routineId],references: [id])
+
+  @@index([routineId])
+
+  @@map("workout_session")
+}

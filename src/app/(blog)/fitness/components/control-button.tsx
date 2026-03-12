@@ -7,6 +7,7 @@ import { Pause, Play, RotateCcw, SkipForward } from "lucide-react";
 interface ControlButtonProps {
   activeRoutineId: number | null;
   isPaused: boolean;
+  isActive: boolean;
   onRestart: () => void;
   onTogglePause: () => void;
   onSkip: () => void;
@@ -15,6 +16,7 @@ interface ControlButtonProps {
 export default function ControlButtons({
   activeRoutineId,
   isPaused,
+  isActive,
   onRestart,
   onTogglePause,
   onSkip,
@@ -42,9 +44,17 @@ export default function ControlButtons({
           disabled={!activeRoutineId}
           className={`w-20 h-20 rounded-full shadow-lg transition-all ${isPaused ? "bg-linear-to-br from-[#ef611a] to-[#fc7836] hover:from-[#fc7836] hover:to-[#ef611a]" : "bg-linear-to-br from-[#fc7836] to-[#ef611a] hover:from-[#ef611a] hover:to-[#fc7836]"}`}
           onClick={onTogglePause}
-          title={isPaused ? "Play" : "Pause"}>
-          {isPaused ? (
-            <Play className="w-10 h-10 ml-1 text-white" fill="white" />
+          title={
+            !isActive && !isPaused
+              ? "Play"
+              : isActive && isPaused
+                ? "Play"
+                : "Pause"
+          }>
+          {!isActive && !isPaused ? (
+            <Play className="w-10 h-10 text-white" fill="white" />
+          ) : isActive && isPaused ? (
+            <Play className="w-10 h-10 text-white" fill="white" />
           ) : (
             <Pause className="w-10 h-10 text-white" fill="white" />
           )}

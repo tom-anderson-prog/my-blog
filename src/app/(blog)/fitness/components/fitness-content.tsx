@@ -15,7 +15,9 @@ export default function FitnessContentPage() {
   const isActive = useWorkoutStore((state) => state.isActive);
   const isPaused = useWorkoutStore((state) => state.isPaused);
 
-  const { tick, restart, resume, pause, skip } = useWorkoutStore.getState();
+
+  const { start, tick, restart, resume, pause, skip } =
+    useWorkoutStore.getState();
 
   useEffect(() => {
     if (!isActive || isPaused) return;
@@ -57,9 +59,12 @@ export default function FitnessContentPage() {
       <ControlButtons
         activeRoutineId={routine.id}
         isPaused={isPaused}
+        isActive={isActive}
         onRestart={restart}
         onSkip={skip}
-        onTogglePause={isPaused ? resume : pause}
+        onTogglePause={
+          !isPaused && !isActive ? start : isActive && isPaused ? resume : pause
+        }
       />
 
       <TimerBeep

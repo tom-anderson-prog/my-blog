@@ -15,13 +15,14 @@ export const getRoutines = async (): Promise<Routine[]> => {
         {
           id: 1,
           type: "EXERCISE",
-          name: "Sun Salutation B",
-          duration: 525,
+          name: "Warm Up",
+          duration: 10,
           order: 1,
         },
         { id: 2, type: "REST", name: "REST", duration: 30, order: 2 },
+        { id: 3, type: "EXERCISE", name: "Heihei", duration: 60, order: 3 },
       ],
-      totalDuration: 555,
+      totalDuration: 100,
     },
   ];
 
@@ -34,8 +35,6 @@ export default async function RoutinesLoader({
   children: React.ReactNode;
 }) {
   const routines = await getRoutines();
-
-  console.log({ routines });
 
   return (
     <Suspense

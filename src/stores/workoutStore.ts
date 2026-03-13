@@ -10,6 +10,7 @@ interface WorkoutState {
   secondsLeft: number;
   isActive: boolean;
   isPaused: boolean;
+  completed: boolean;
 
   setRoutines: (routines: Routine[]) => void;
   setActiveRoutine: (id: number) => void;
@@ -31,6 +32,8 @@ export const useWorkoutStore = create<WorkoutState>()(
       secondsLeft: 60,
       isActive: false,
       isPaused: false,
+      completed: false,
+
       setRoutines: (routines) => {
         if (Array.isArray(routines) && routines.length > 0) {
           set({ routines });
@@ -66,6 +69,7 @@ export const useWorkoutStore = create<WorkoutState>()(
           secondsLeft: first.duration,
           isActive: false,
           isPaused: false,
+          completed: false,
         });
       },
       skip: () => {
@@ -77,7 +81,7 @@ export const useWorkoutStore = create<WorkoutState>()(
 
         const nextIndex = get().currentStepIndex + 1;
         if (nextIndex >= routine.steps.length) {
-          set({ isActive: false, secondsLeft: 0 });
+          set({ isActive: false, secondsLeft: 0, completed: true });
           return;
         }
 

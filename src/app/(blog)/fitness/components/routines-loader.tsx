@@ -19,10 +19,10 @@ export const getRoutines = async (): Promise<Routine[]> => {
           duration: 10,
           order: 1,
         },
-        { id: 2, type: "REST", name: "REST", duration: 30, order: 2 },
-        { id: 3, type: "EXERCISE", name: "Heihei", duration: 60, order: 3 },
+        { id: 2, type: "REST", name: "REST", duration: 10, order: 2 },
+        { id: 3, type: "EXERCISE", name: "Heihei", duration: 10, order: 3 },
       ],
-      totalDuration: 100,
+      totalDuration: 30,
     },
   ];
 

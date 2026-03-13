@@ -16,7 +16,7 @@ export default async function ArticleContent({
 
   return (
     <>
-      <div className="mx-3 space-y-2 mb-4">
+      <div className="mx-3 space-y-2 mt-8 mb-8">
         <div className="text-3xl font-bold">{data.title}</div>
         <div className="text-sm text-muted-foreground">
           Published on {data.publishedAt && format(data.publishedAt, "PP")}
@@ -27,7 +27,7 @@ export default async function ArticleContent({
           <Image src={data.image || ""} alt="" fill className="object-cover" />
         </div>
       )}
-      <div className="mx-3 text-base/6 text-left">{data.content}</div>
+      <div className="mx-3 text-base/6 text-left mb-8">{data.content}</div>
     </>
   );
 }

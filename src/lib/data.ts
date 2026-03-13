@@ -25,6 +25,16 @@ export const getPhotos = async () => {
   return result;
 };
 
+export const getPhotoById = async (id: string) => {
+  "use cache";
+
+  const result = await prisma.photo.findUnique({
+    where: { id: +id },
+  });
+
+  return result;
+};
+
 export const getAllArticles = async () => {
   "use cache";
   cacheLife("weeks");

@@ -1,6 +1,5 @@
-import { BackButton } from "@/components/back-button";
 import { Suspense } from "react";
-import ArticleContent from "./ArticleContent";
+import ArticleContent from "./article-content";
 
 export default async function ArticleDetail({
   params,
@@ -9,9 +8,6 @@ export default async function ArticleDetail({
 }) {
   return (
     <>
-      <div className="my-6">
-        <BackButton label="Go back" />
-      </div>
       <Suspense fallback={<></>}>
         <ArticleContent params={params} />
       </Suspense>

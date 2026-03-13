@@ -47,11 +47,12 @@ export default function ArticleCard({
           key={article.id}
           className="flex-1">
           <Link href={`/articles/${article.id}`} className="group block">
-            <div className="relative aspect-video w-full mb-4 md:mb-6 rounded-xl cursor-pointer overflow-hidden shadow-sm group-hover:shadow-xl transition-shadow duration-300">
+            <div className="relative aspect-video w-full mb-4 md:mb-6 rounded-xl saturate-[0.3] group-hover:saturate-100 cursor-pointer overflow-hidden shadow-sm group-hover:shadow-xl transition-shadow duration-300">
               <Image
                 src={article.image || ""}
                 alt={article.title}
                 fill
+                sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                 placeholder="blur"
                 blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mN8/OhPPQAJJAPXdxCaAAAAAElFTkSuQmCC"
                 className="object-cover rounded-xl transition-transform duration-300 group-hover:scale-105"
@@ -79,11 +80,12 @@ export default function ArticleCard({
             key={article.id}
             className="group block">
             <div className="flex justify-start items-center py-2">
-              <div className="relative mr-2 w-20 h-20 shrink-0 shadow-sm rounded-xl overflow-hidden group-hover:shadow-md transition-shadow duration-300">
+              <div className="relative mr-2 w-20 h-20 shrink-0 shadow-sm saturate-[0.3] group-hover:saturate-100 rounded-xl overflow-hidden group-hover:shadow-md transition-shadow duration-300">
                 <Image
                   src={article.image || ""}
                   alt={article.title}
                   fill
+                  sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                   className="object-cover rounded-xl group-hover:scale-105 transition-all duration-300"
                 />
               </div>

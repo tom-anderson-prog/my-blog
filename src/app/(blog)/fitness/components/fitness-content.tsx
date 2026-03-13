@@ -38,7 +38,7 @@ export default function FitnessContentPage() {
   if (!routine || !currentStep) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-linear-to-b from-slate-50 to-slate-100">
-        <div className="text-xl text-slate-600">正在初始化训练计划...</div>
+        <div className="text-xl text-slate-600">init routines...</div>
       </div>
     );
   }

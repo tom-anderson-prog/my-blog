@@ -4,7 +4,8 @@ import { Mountain } from "lucide-react";
 import Link from "next/link";
 
 export default function Header() {
-  const { data: session } = useSession();
+  // const { data: session } = useSession();
+  const session = true;
   return (
     <header className="sticky top-0 z-50 w-full border-b border-gray-100 bg-background/50 backdrop-blur">
       <div className="w-full h-16 mx-auto px-8 flex items-center justify-between">

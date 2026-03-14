@@ -1,4 +1,5 @@
 import { getPhotoById } from "@/lib/data";
+import SinglePhotoPage from "./single-photo";
 
 export default async function PhotoContent({
   params,
@@ -12,5 +13,5 @@ export default async function PhotoContent({
     return null;
   }
 
-  return <div>Photo Content</div>;
+  return <SinglePhotoPage image={data} />;
 }

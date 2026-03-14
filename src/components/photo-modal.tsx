@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -12,9 +12,12 @@ export default function PhotoModal({
 }: {
   image: {
     id: number;
-    caption: string;
     url: string;
-    description?: string;
+    caption: string;
+    description: string | null;
+    likes: number;
+    createdAt: Date;
+    updatedAt: Date;
   };
 }) {
   const router = useRouter();
@@ -43,14 +46,15 @@ export default function PhotoModal({
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="relative max-w-5xl w-full flex flex-col justify-center items-center cursor-default">
-        <div className="relative w-full max-h-[70vh] aspect-square md:aspect-video mb-8">
+        className="relative max-w-3xl w-full flex flex-col justify-center items-center cursor-default">
+        <div className="relative w-full max-h-[70vh] rounded-sm overflow-hidden shadow-sm mb-8">
           <Image
             src={image.url}
             alt={image.caption}
-            fill
+            width={1000}
+            height={1600}
             priority
-            className="object-contain"
+            className="w-full h-auto max-w-full max-h-[70vh] object-contain"
           />
         </div>
         <motion.div

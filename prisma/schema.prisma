@@ -120,6 +120,8 @@ model Photo {
   id        Int      @id @default(autoincrement())
   url       String
   caption   String
+  description String?
+  likes Int @default(0)
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @default(now()) @map("updated_at")
 

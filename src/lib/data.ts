@@ -1,6 +1,5 @@
 import { cacheLife } from "next/cache";
 import prisma from "./prisma";
-import { Routine } from "./types";
 
 export const getLatestArticles = async () => {
   "use cache";
@@ -35,15 +34,47 @@ export const getPhotoById = async (id: string) => {
   return result;
 };
 
-export const getAllArticles = async () => {
+export const getPublishedArticles = async () => {
   "use cache";
   cacheLife("weeks");
 
   const result = await prisma.category.findMany({
-    include: { articles: true },
+    include: {
+      articles: {
+        where: {
+          status: "PUBLISHED",
+        },
+        orderBy: {
+          publishedAt: "desc",
+        },
+      },
+    },
+    orderBy: {
+      name: "asc",
+    },
   });
 
   return result;
+};
+
+export const getArticlesByPage = async (page: number, limit: number = 1) => {
+  const skip = (page - 1) * limit;
+
+  const [articles, totalCount] = await Promise.all([
+    prisma.article.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.article.count(),
+  ]);
+
+  return {
+    articles,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 };
 
 export const getArticleById = async (id: string) => {

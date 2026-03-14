@@ -1,10 +1,10 @@
 import ArticleCard from "@/components/article-card";
 import PageTitle from "@/components/page-title";
-import { getAllArticles } from "@/lib/data";
+import { getPublishedArticles } from "@/lib/data";
 import { Suspense } from "react";
 
 export default async function ArticlesPage() {
-  const data = await getAllArticles();
+  const data = await getPublishedArticles();
   return (
     <div className="w-full mb-6">
       <Suspense fallback={<></>}>

@@ -57,7 +57,7 @@ export const getPublishedArticles = async () => {
   return result;
 };
 
-export const getArticlesByPage = async (page: number, limit: number = 1) => {
+export const getArticlesByPage = async (page: number, limit: number = 10) => {
   const skip = (page - 1) * limit;
 
   const [articles, totalCount] = await Promise.all([
@@ -66,6 +66,9 @@ export const getArticlesByPage = async (page: number, limit: number = 1) => {
       take: limit,
       orderBy: {
         createdAt: "desc",
+      },
+      include: {
+        category: true,
       },
     }),
     prisma.article.count(),

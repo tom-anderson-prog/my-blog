@@ -1,3 +1,5 @@
+import { Article, Category } from "../generated/prisma/client";
+
 export type WorkoutStep = {
   id: number;
   type: "EXERCISE" | "REST";
@@ -14,4 +16,10 @@ export type Routine = {
   isActive?: boolean;
   steps: WorkoutStep[];
   totalDuration?: number;
+};
+
+export type BasicArticle = Article;
+
+export type ArticleWithCategory = Article & {
+  category: Category;
 };

@@ -1,6 +1,4 @@
-"use client";
-
-import { usePaginationQuery } from "@/hooks/use-pagination-query";
+import { getPaginatedLink } from "@/hooks/use-query";
 import {
   Pagination,
   PaginationContent,
@@ -13,14 +11,21 @@ import {
 
 export default function CommonPagination({
   totalPages,
+  page,
+  location,
 }: {
   totalPages: number;
+  page: number;
+  location: string;
 }) {
-  const [page, setPage] = usePaginationQuery();
-
-  console.log({ totalPages });
-
   if (totalPages <= 1) return null;
+
+  function pageURL(page: number) {
+    const safePage = Math.max(1, Math.min(page, totalPages));
+    return getPaginatedLink(location, {
+      page: safePage,
+    });
+  }
 
   const getVisiblePages = () => {
     const maxVisible = 5;
@@ -53,13 +58,7 @@ export default function CommonPagination({
       <PaginationContent className="w-full flex items-center justify-end">
         <PaginationItem>
           <PaginationPrevious
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              if (page > 1) {
-                setPage(page - 1);
-              }
-            }}
+            href={pageURL(page - 1)}
             className={
               page <= 1 ? "pointer-events-none opacity-50" : "cursor-pointer"
             }
@@ -79,11 +78,7 @@ export default function CommonPagination({
           return (
             <PaginationItem key={i}>
               <PaginationLink
-                href="#"
-                onClick={(e) => {
-                  e.preventDefault();
-                  setPage(pageNum);
-                }}
+                href={pageURL(pageNum)}
                 isActive={page === pageNum}>
                 {pageNum}
               </PaginationLink>
@@ -93,13 +88,7 @@ export default function CommonPagination({
 
         <PaginationItem>
           <PaginationNext
-            href="#"
-            onClick={(e) => {
-              e.preventDefault();
-              if (page < totalPages) {
-                setPage(page + 1);
-              }
-            }}
+            href={pageURL(page + 1)}
             className={
               page >= totalPages
                 ? "pointer-events-none opacity-50"

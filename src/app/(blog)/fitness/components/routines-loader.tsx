@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import RoutinesInitializer from "./routines-initializer";
 
-import { Routine } from "@/lib/types";
+import { FitnessRoutine } from "@/lib/types";
 
-export const getRoutines = async (): Promise<Routine[]> => {
+export const getRoutines = async (): Promise<FitnessRoutine[]> => {
   await new Promise((r) => setTimeout(r, 800));
-  const result: Routine[] = [
+  const result: FitnessRoutine[] = [
     {
       id: 1,
       name: "Morning Yoga",

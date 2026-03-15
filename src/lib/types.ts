@@ -1,4 +1,10 @@
-import { Article, Category } from "../generated/prisma/client";
+import {
+  Article,
+  Category,
+  Photo,
+  Routine,
+  WorkoutSession,
+} from "../generated/prisma/client";
 
 export type WorkoutStep = {
   id: number;
@@ -8,7 +14,7 @@ export type WorkoutStep = {
   order: number;
 };
 
-export type Routine = {
+export type FitnessRoutine = {
   id: number;
   name: string;
   isEnabled: boolean;
@@ -19,7 +25,14 @@ export type Routine = {
 };
 
 export type BasicArticle = Article;
+export type BasicCategory = Category;
+export type BasicPhoto = Photo;
+export type BasicRoutine = Routine;
 
 export type ArticleWithCategory = Article & {
   category: Category;
+};
+
+export type RoutineWithWorkout = Routine & {
+  workoutSession: WorkoutSession;
 };

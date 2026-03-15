@@ -52,9 +52,11 @@ export default async function ArticleTableContent({
       header: "Actions",
       render: (item: ArticleWithCategory) => (
         <div className="flex justify-start items-center gap-3">
-          <form action="">
-            <BlogButton action="publish" name="Publish" type="submit" />
-          </form>
+          {item.status === "DRAFT" && (
+            <form action="">
+              <BlogButton action="publish" name="Publish" type="submit" />
+            </form>
+          )}
           <Link href={`/admin-articles/edit/${item.id}`}>
             <BlogButton action="edit" name="Edit" />
           </Link>

@@ -80,6 +80,69 @@ export const getArticlesByPage = async (page: number, limit: number = 10) => {
   };
 };
 
+export const getPhotosByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [photos, totalCount] = await Promise.all([
+    prisma.photo.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.photo.count(),
+  ]);
+
+  return {
+    photos,
+    totalPages: Math.ceil(totalCount / limit),
+  };
+};
+
+export const getRoutinesByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [routines, totalCount] = await Promise.all([
+    prisma.routine.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        workoutSession: true,
+      },
+    }),
+    prisma.routine.count(),
+  ]);
+
+  return {
+    routines,
+    totalPages: Math.ceil(totalCount / limit),
+  };
+};
+
+export const getCategoryByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [categories, totalCount] = await Promise.all([
+    prisma.category.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.category.count(),
+  ]);
+
+  return {
+    categories,
+    totalPages: Math.ceil(totalCount / limit),
+  };
+};
+
 export const getArticleById = async (id: string) => {
   "use cache";
 

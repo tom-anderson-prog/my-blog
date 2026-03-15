@@ -1,18 +1,18 @@
-import { WorkoutStep, Routine } from "./../lib/types";
+import { WorkoutStep, FitnessRoutine } from "./../lib/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface WorkoutState {
-  routines: Routine[];
+  routines: FitnessRoutine[];
   activeRoutineId: number | null;
-  activeRoutine: Routine | null;
+  activeRoutine: FitnessRoutine | null;
   currentStepIndex: number;
   secondsLeft: number;
   isActive: boolean;
   isPaused: boolean;
   completed: boolean;
 
-  setRoutines: (routines: Routine[]) => void;
+  setRoutines: (routines: FitnessRoutine[]) => void;
   setActiveRoutine: (id: number) => void;
   start: () => void;
   pause: () => void;

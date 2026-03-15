@@ -17,8 +17,16 @@ export default async function ArticleTableContent({
   const currentPage = Number(page) || 1;
 
   const columns: Columns<ArticleWithCategory>[] = [
-    { header: "Title", render: (item: ArticleWithCategory) => item.title },
-    { header: "Status", render: (item: ArticleWithCategory) => item.status },
+    {
+      header: "Title",
+      render: (item: ArticleWithCategory) => item.title,
+      width: "260px",
+    },
+    {
+      header: "Status",
+      render: (item: ArticleWithCategory) => item.status,
+      width: "160px",
+    },
     {
       header: "Publish Time",
       render: (item: ArticleWithCategory) => {
@@ -28,14 +36,17 @@ export default async function ArticleTableContent({
           </span>
         );
       },
+      width: "220px",
     },
     {
       header: "Create Time",
       render: (item: ArticleWithCategory) => format(item.createdAt, "PPpp"),
+      width: "220px",
     },
     {
       header: "Category",
       render: (item: ArticleWithCategory) => item.category.name,
+      width: "160px",
     },
     {
       header: "Actions",
@@ -52,6 +63,7 @@ export default async function ArticleTableContent({
           </form>
         </div>
       ),
+      width: "250px",
     },
   ];
   const { articles, totalPages } = await getArticlesByPage(currentPage);

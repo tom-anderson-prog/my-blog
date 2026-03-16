@@ -28,6 +28,10 @@ export type BasicArticle = Article;
 export type BasicCategory = Category;
 export type BasicPhoto = Photo;
 export type BasicRoutine = Routine;
+export type CategoryInput = {
+  id?: number;
+  name: string;
+};
 
 export type ArticleWithCategory = Article & {
   category: Category;

@@ -55,7 +55,7 @@ export const FitnessList = ({
       render: (item: RoutineWithWorkout) => (
         <div className="flex justify-start items-center gap-3">
           <Link href={`/admin-fitness/edit/${item.id}`}>
-            <BlogButton action="edit" name="Edit" />
+            <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <form action={removeRoutineById.bind(null, item.id)}>
             <BlogButton type="submit" action="del" name="Del" />

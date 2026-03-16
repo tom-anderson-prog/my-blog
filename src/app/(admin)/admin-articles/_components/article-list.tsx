@@ -60,7 +60,7 @@ export const ArticleList = ({
             </form>
           )}
           <Link href={`/admin-articles/edit/${item.id}`}>
-            <BlogButton action="edit" name="Edit" />
+            <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <form action={removeArticleById.bind(null, item.id)}>
             <BlogButton type="submit" action="del" name="Del" />

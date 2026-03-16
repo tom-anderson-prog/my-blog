@@ -1,8 +1,6 @@
 import { loadPagination } from "@/hooks/use-query";
 import { getCategoryByPage } from "@/lib/data";
 import type { SearchParams } from "nuqs/server";
-import Link from "next/link";
-import BlogButton from "@/components/blog-buttons";
 import { CategoryList } from "./category-list";
 
 export default async function CategoryTableContent({
@@ -16,17 +14,6 @@ export default async function CategoryTableContent({
 
   return (
     <>
-      <Link href={`/admin-category/new`}>
-        <BlogButton
-          action="add"
-          name="Add Category"
-          icon={
-            <span className="mr-2 transition-transform duration-300 group-hover:rotate-90">
-              +
-            </span>
-          }
-        />
-      </Link>
       <CategoryList
         categories={categories}
         totalPages={totalPages}

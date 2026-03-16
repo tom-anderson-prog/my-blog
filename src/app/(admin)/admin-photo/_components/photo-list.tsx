@@ -43,7 +43,7 @@ export const PhotoList = ({
       render: (item: BasicPhoto) => (
         <div className="flex justify-start items-center gap-3">
           <Link href={`/admin-photo/edit/${item.id}`}>
-            <BlogButton action="edit" name="Edit" />
+            <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <form action={removePhotoById.bind(null, item.id)}>
             <BlogButton type="submit" action="del" name="Del" />

@@ -1,6 +1,6 @@
 import PageTitle from "@/components/page-title";
 import { Suspense } from "react";
-import ArticleTableContent from "./article-table-content";
+import ArticleTableContent from "./_components/article-table-content";
 import TableSkeleton from "@/components/skeleton/table-skeleton";
 
 export default async function AdminArticlesPage({

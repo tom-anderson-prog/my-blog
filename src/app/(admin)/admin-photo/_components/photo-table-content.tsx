@@ -20,6 +20,7 @@ export default async function PhotoTableContent({
         <BlogButton
           action="add"
           name="Add Photo"
+          type="button"
           icon={
             <span className="mr-2 transition-transform duration-300 group-hover:rotate-90">
               +

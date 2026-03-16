@@ -4,10 +4,10 @@ import CommonPagination from "@/components/common-pagination";
 import CommonTable, { type Columns } from "@/components/common-table";
 import { BasicCategory } from "@/lib/types";
 import { format } from "date-fns";
-import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
-import { useOptimistic } from "react";
+import { useOptimistic, useState } from "react";
 import { removeCategory } from "@/actions/category";
+import { CategoryFormModal } from "./category-form-modal";
 
 export const CategoryList = ({
   categories,
@@ -18,6 +18,21 @@ export const CategoryList = ({
   totalPages: number;
   page: number;
 }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [editingCategory, setEditingCategory] = useState<BasicCategory | null>(
+    null,
+  );
+
+  const handleAdd = () => {
+    setEditingCategory(null);
+    setIsModalOpen(true);
+  };
+
+  const handleEdit = (category: BasicCategory) => {
+    setEditingCategory(category);
+    setIsModalOpen(true);
+  };
+
   const columns: Columns<BasicCategory>[] = [
     {
       header: "Name",
@@ -39,9 +54,12 @@ export const CategoryList = ({
       header: "Actions",
       render: (item: BasicCategory) => (
         <div className="flex justify-start items-center gap-3">
-          <Link href={`/admin-category/edit/${item.id}`}>
-            <BlogButton action="edit" name="Edit" />
-          </Link>
+          <BlogButton
+            action="edit"
+            name="Edit"
+            type="button"
+            onClick={() => handleEdit(item)}
+          />
           <form action={delCategoryById.bind(null, item.id)}>
             <BlogButton type="submit" action="del" name="Del" />
           </form>
@@ -64,11 +82,28 @@ export const CategoryList = ({
 
   return (
     <>
+      <BlogButton
+        action="add"
+        name="Add Category"
+        type="button"
+        onClick={handleAdd}
+        icon={
+          <span className="mr-2 transition-transform duration-300 group-hover:rotate-90">
+            +
+          </span>
+        }
+      />
       <CommonTable columns={columns} data={optimisticCategories} />
       <CommonPagination
         page={page}
         totalPages={totalPages}
         location="/admin-category"
+      />
+      <CategoryFormModal
+        key={editingCategory?.id || "new"}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        category={editingCategory}
       />
     </>
   );

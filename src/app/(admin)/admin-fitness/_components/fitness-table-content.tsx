@@ -1,26 +1,26 @@
 import { loadPagination } from "@/hooks/use-query";
-import { getArticlesByPage } from "@/lib/data";
+import { getRoutinesByPage } from "@/lib/data";
 import type { SearchParams } from "nuqs/server";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
-import { ArticleList } from "./article-list";
+import { FitnessList } from "./fitness-list";
 
-export default async function ArticleTableContent({
+export default async function FitnessTableContent({
   params,
 }: {
   params: Promise<SearchParams>;
 }) {
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
-
-  const { articles, totalPages } = await getArticlesByPage(currentPage);
+  const { routines, totalPages } = await getRoutinesByPage(currentPage);
 
   return (
     <>
-      <Link href={`/admin-articles/new`}>
+      <Link href={`/admin-fitness/new`}>
         <BlogButton
           action="add"
-          name="Add Article"
+          name="Add Routine"
+          type="button"
           icon={
             <span className="mr-2 transition-transform duration-300 group-hover:rotate-90">
               +
@@ -28,7 +28,7 @@ export default async function ArticleTableContent({
           }
         />
       </Link>
-      <ArticleList articles={articles} totalPages={totalPages} page={page} />
+      <FitnessList routines={routines} totalPages={totalPages} page={page} />
     </>
   );
 }

@@ -1,7 +1,7 @@
 import PageTitle from "@/components/page-title";
 import { Suspense } from "react";
 import TableSkeleton from "@/components/skeleton/table-skeleton";
-import FitnessTableContent from "./fitness-table-content";
+import FitnessTableContent from "./_components/fitness-table-content";
 
 export default async function AdminArticlesPage({
   searchParams,

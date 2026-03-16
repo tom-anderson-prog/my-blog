@@ -1,7 +1,15 @@
 import { cacheLife, cacheTag } from "next/cache";
 import prisma from "./prisma";
-import { BasicArticle, BasicCategory, BasicPhoto } from "./types";
+import {
+  BasicArticle,
+  BasicCategory,
+  BasicPhoto,
+  CategoryInput,
+} from "./types";
 
+// ==============================
+// article apis
+// ==============================
 export const getLatestArticles = async () => {
   "use cache";
   cacheLife("weeks");
@@ -9,28 +17,6 @@ export const getLatestArticles = async () => {
   const result = await prisma.article.findMany({
     take: 4,
     orderBy: { createdAt: "desc" },
-  });
-
-  return result;
-};
-
-export const getPhotos = async () => {
-  "use cache";
-  cacheLife("weeks");
-  cacheTag("photos");
-
-  const result = await prisma.photo.findMany({
-    orderBy: { createdAt: "desc" },
-  });
-
-  return result;
-};
-
-export const getPhotoById = async (id: string) => {
-  "use cache";
-
-  const result = await prisma.photo.findUnique({
-    where: { id: +id },
   });
 
   return result;
@@ -83,69 +69,6 @@ export const getArticlesByPage = async (page: number, limit: number = 10) => {
   };
 };
 
-export const getPhotosByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
-
-  const [photos, totalCount] = await Promise.all([
-    prisma.photo.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
-    prisma.photo.count(),
-  ]);
-
-  return {
-    photos,
-    totalPages: Math.ceil(totalCount / limit),
-  };
-};
-
-export const getRoutinesByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
-
-  const [routines, totalCount] = await Promise.all([
-    prisma.routine.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        workoutSession: true,
-      },
-    }),
-    prisma.routine.count(),
-  ]);
-
-  return {
-    routines,
-    totalPages: Math.ceil(totalCount / limit),
-  };
-};
-
-export const getCategoryByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
-
-  const [categories, totalCount] = await Promise.all([
-    prisma.category.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
-    prisma.category.count(),
-  ]);
-
-  return {
-    categories,
-    totalPages: Math.ceil(totalCount / limit),
-  };
-};
-
 export const getArticleById = async (id: string) => {
   "use cache";
 
@@ -180,6 +103,51 @@ export const updateArticleStatus = async (
   });
 };
 
+// ==============================
+// photo apis
+// ==============================
+export const getPhotos = async () => {
+  "use cache";
+  cacheLife("weeks");
+  cacheTag("photos");
+
+  const result = await prisma.photo.findMany({
+    orderBy: { createdAt: "desc" },
+  });
+
+  return result;
+};
+
+export const getPhotoById = async (id: string) => {
+  "use cache";
+
+  const result = await prisma.photo.findUnique({
+    where: { id: +id },
+  });
+
+  return result;
+};
+
+export const getPhotosByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [photos, totalCount] = await Promise.all([
+    prisma.photo.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.photo.count(),
+  ]);
+
+  return {
+    photos,
+    totalPages: Math.ceil(totalCount / limit),
+  };
+};
+
 export const updatePhoto = async (data: BasicPhoto) => {
   await prisma.photo.update({
     where: { id: data.id },
@@ -193,7 +161,36 @@ export const delPhoto = async (id: number) => {
   });
 };
 
-export const updateCategory = async (data: BasicCategory) => {
+// ==============================
+// category apis
+// ==============================
+export const getCategoryByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [categories, totalCount] = await Promise.all([
+    prisma.category.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+    }),
+    prisma.category.count(),
+  ]);
+
+  return {
+    categories,
+    totalPages: Math.ceil(totalCount / limit),
+  };
+};
+
+export const createCategory = async (data: CategoryInput) => {
+  await prisma.category.create({
+    data,
+  });
+};
+
+export const updateCategory = async (data: CategoryInput) => {
   await prisma.category.update({
     where: { id: data.id },
     data,
@@ -204,6 +201,33 @@ export const delCategory = async (id: number) => {
   await prisma.category.delete({
     where: { id: +id },
   });
+};
+
+
+// ==============================
+// fitness apis
+// ==============================
+export const getRoutinesByPage = async (page: number, limit: number = 10) => {
+  const skip = (page - 1) * limit;
+
+  const [routines, totalCount] = await Promise.all([
+    prisma.routine.findMany({
+      skip,
+      take: limit,
+      orderBy: {
+        createdAt: "desc",
+      },
+      include: {
+        workoutSession: true,
+      },
+    }),
+    prisma.routine.count(),
+  ]);
+
+  return {
+    routines,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 };
 
 export const delRoutine = async (id: number) => {

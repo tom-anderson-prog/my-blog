@@ -34,5 +34,5 @@ export type ArticleWithCategory = Article & {
 };
 
 export type RoutineWithWorkout = Routine & {
-  workoutSession: WorkoutSession;
+  workoutSession: WorkoutSession[];
 };

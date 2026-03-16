@@ -1,5 +1,6 @@
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import prisma from "./prisma";
+import { BasicArticle, BasicCategory, BasicPhoto } from "./types";
 
 export const getLatestArticles = async () => {
   "use cache";
@@ -16,6 +17,7 @@ export const getLatestArticles = async () => {
 export const getPhotos = async () => {
   "use cache";
   cacheLife("weeks");
+  cacheTag("photos");
 
   const result = await prisma.photo.findMany({
     orderBy: { createdAt: "desc" },
@@ -37,6 +39,7 @@ export const getPhotoById = async (id: string) => {
 export const getPublishedArticles = async () => {
   "use cache";
   cacheLife("weeks");
+  cacheTag("published-articles");
 
   const result = await prisma.category.findMany({
     include: {
@@ -150,4 +153,61 @@ export const getArticleById = async (id: string) => {
     where: { id: +id },
   });
   return result;
+};
+
+export const updateArticle = async (data: BasicArticle) => {
+  await prisma.article.update({
+    where: { id: data.id },
+    data,
+  });
+};
+
+export const delArticle = async (id: number) => {
+  await prisma.article.delete({
+    where: { id: +id },
+  });
+};
+
+export const updateArticleStatus = async (
+  id: number,
+  newStatus: "DRAFT" | "PUBLISHED",
+) => {
+  await prisma.article.update({
+    where: { id },
+    data: {
+      status: newStatus,
+    },
+  });
+};
+
+export const updatePhoto = async (data: BasicPhoto) => {
+  await prisma.photo.update({
+    where: { id: data.id },
+    data,
+  });
+};
+
+export const delPhoto = async (id: number) => {
+  await prisma.photo.delete({
+    where: { id: +id },
+  });
+};
+
+export const updateCategory = async (data: BasicCategory) => {
+  await prisma.category.update({
+    where: { id: data.id },
+    data,
+  });
+};
+
+export const delCategory = async (id: number) => {
+  await prisma.category.delete({
+    where: { id: +id },
+  });
+};
+
+export const delRoutine = async (id: number) => {
+  await prisma.routine.delete({
+    where: { id: +id },
+  });
 };

@@ -1,12 +1,9 @@
-import CommonPagination from "@/components/common-pagination";
-import CommonTable, { type Columns } from "@/components/common-table";
 import { loadPagination } from "@/hooks/use-query";
 import { getCategoryByPage } from "@/lib/data";
 import type { SearchParams } from "nuqs/server";
-import { BasicCategory } from "@/lib/types";
-import { format } from "date-fns";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
+import { CategoryList } from "./category-list";
 
 export default async function CategoryTableContent({
   params,
@@ -15,39 +12,8 @@ export default async function CategoryTableContent({
 }) {
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
-
-  const columns: Columns<BasicCategory>[] = [
-    {
-      header: "Name",
-      render: (item: BasicCategory) => item.name,
-    },
-    {
-      header: "Create Time",
-      render: (item: BasicCategory) => format(item.createdAt, "PPpp"),
-    },
-    {
-      header: "Update Time",
-      render: (item: BasicCategory) => {
-        return (
-          <span>{item.updatedAt ? format(item.updatedAt, "PPpp") : ""}</span>
-        );
-      },
-    },
-    {
-      header: "Actions",
-      render: (item: BasicCategory) => (
-        <div className="flex justify-start items-center gap-3">
-          <Link href={`/admin-category/edit/${item.id}`}>
-            <BlogButton action="edit" name="Edit" />
-          </Link>
-          <form action="">
-            <BlogButton action="del" name="Del" />
-          </form>
-        </div>
-      ),
-    },
-  ];
   const { categories, totalPages } = await getCategoryByPage(currentPage);
+
   return (
     <>
       <Link href={`/admin-category/new`}>
@@ -61,11 +27,10 @@ export default async function CategoryTableContent({
           }
         />
       </Link>
-      <CommonTable columns={columns} data={categories} />
-      <CommonPagination
-        page={page}
+      <CategoryList
+        categories={categories}
         totalPages={totalPages}
-        location="/admin-category"
+        page={page}
       />
     </>
   );

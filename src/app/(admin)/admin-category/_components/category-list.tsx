@@ -8,6 +8,7 @@ import BlogButton from "@/components/blog-buttons";
 import { useOptimistic, useState } from "react";
 import { removeCategory } from "@/actions/category";
 import { CategoryFormModal } from "./category-form-modal";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export const CategoryList = ({
   categories,
@@ -22,6 +23,7 @@ export const CategoryList = ({
   const [editingCategory, setEditingCategory] = useState<BasicCategory | null>(
     null,
   );
+  const confirm = useConfirm((state) => state.confirm);
 
   const handleAdd = () => {
     setEditingCategory(null);
@@ -60,13 +62,23 @@ export const CategoryList = ({
             type="button"
             onClick={() => handleEdit(item)}
           />
-          <form action={delCategoryById.bind(null, item.id)}>
-            <BlogButton type="submit" action="del" name="Del" />
-          </form>
+          <BlogButton
+            type="submit"
+            action="del"
+            name="Del"
+            onClick={() => handleDelete(item.id)}
+          />
         </div>
       ),
     },
   ];
+
+  const handleDelete = (id: number) => {
+    confirm("Delete Category?", "Really delete this?", async () => {
+      addOptimistic(id);
+      await removeCategory(id);
+    });
+  };
 
   const [optimisticCategories, addOptimistic] = useOptimistic(
     categories,
@@ -74,11 +86,6 @@ export const CategoryList = ({
       return currentCategories.filter((c) => c.id !== categoryId);
     },
   );
-
-  const delCategoryById = async (id: number) => {
-    addOptimistic(id);
-    await removeCategory(id);
-  };
 
   return (
     <>

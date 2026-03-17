@@ -8,6 +8,7 @@ import BlogButton from "@/components/blog-buttons";
 import Link from "next/link";
 import { useOptimistic } from "react";
 import { removeArticle } from "@/actions/article";
+import { useConfirm } from "@/hooks/use-confirm";
 
 export const ArticleList = ({
   articles,
@@ -18,6 +19,8 @@ export const ArticleList = ({
   totalPages: number;
   page: number;
 }) => {
+  const confirm = useConfirm((state) => state.confirm);
+  
   const columns: Columns<ArticleWithCategory>[] = [
     {
       header: "Title",
@@ -62,14 +65,24 @@ export const ArticleList = ({
           <Link href={`/admin-articles/edit/${item.id}`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
-          <form action={removeArticleById.bind(null, item.id)}>
-            <BlogButton type="submit" action="del" name="Del" />
-          </form>
+          <BlogButton
+            type="submit"
+            action="del"
+            name="Del"
+            onClick={() => handleDelete(item.id)}
+          />
         </div>
       ),
       width: "250px",
     },
   ];
+
+  const handleDelete = (id: number) => {
+    confirm("Delete Article?", "Really delete this?", async () => {
+      addOptimistic(id);
+      await removeArticle(id);
+    });
+  };
 
   const [optimisticArticles, addOptimistic] = useOptimistic(
     articles,
@@ -77,11 +90,6 @@ export const ArticleList = ({
       return currentArticles.filter((a) => a.id !== articleId);
     },
   );
-
-  const removeArticleById = async (id: number) => {
-    addOptimistic(id);
-    await removeArticle(id);
-  };
 
   return (
     <>

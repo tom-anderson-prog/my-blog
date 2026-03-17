@@ -8,6 +8,8 @@ import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { removePhoto } from "@/actions/photo";
 import { useOptimistic } from "react";
+import { useConfirm } from "@/hooks/use-confirm";
+
 
 export const PhotoList = ({
   photos,
@@ -18,6 +20,8 @@ export const PhotoList = ({
   totalPages: number;
   page: number;
 }) => {
+  const confirm = useConfirm((state) => state.confirm);
+  
   const columns: Columns<BasicPhoto>[] = [
     {
       header: "Caption",
@@ -45,14 +49,24 @@ export const PhotoList = ({
           <Link href={`/admin-photo/edit/${item.id}`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
-          <form action={removePhotoById.bind(null, item.id)}>
-            <BlogButton type="submit" action="del" name="Del" />
-          </form>
+          <BlogButton
+            type="submit"
+            action="del"
+            name="Del"
+            onClick={() => handleDelete(item.id)}
+          />
         </div>
       ),
       width: "250px",
     },
   ];
+
+  const handleDelete = (id: number) => {
+    confirm("Delete Photo?", "Really delete this?", async () => {
+      addOptimistic(id);
+      await removePhoto(id);
+    });
+  };
 
   const [optimisticPhotos, addOptimistic] = useOptimistic(
     photos,
@@ -61,10 +75,6 @@ export const PhotoList = ({
     },
   );
 
-  const removePhotoById = async (id: number) => {
-    addOptimistic(id);
-    await removePhoto(id);
-  };
   return (
     <>
       <CommonTable columns={columns} data={optimisticPhotos} />

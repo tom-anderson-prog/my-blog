@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import SideBar from "@/components/side-bar";
 import { AdminProviders } from "@/components/admin-provider";
+import { GlobalConfirmModal } from "@/hooks/use-confirm";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,6 +36,7 @@ export default function RootLayout({
             </aside>
             <main className="flex-1 h-full overflow-y-auto p-8">
               {children}
+              <GlobalConfirmModal />
             </main>
           </AdminProviders>
         </div>

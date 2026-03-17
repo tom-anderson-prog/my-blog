@@ -11,8 +11,8 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { BasicCategory } from "@/lib/types";
-import { useState } from "react";
+import { BasicCategory, CategoryFormState } from "@/lib/types";
+import { useActionState, useState, useEffect } from "react";
 
 interface CategoryFormModalProps {
   isOpen: boolean;
@@ -26,43 +26,35 @@ export function CategoryFormModal({
   category,
 }: CategoryFormModalProps) {
   const [name, setName] = useState(category?.name || "");
-  const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState("");
 
-  const validate = (value: string) => {
-    if (!value.trim()) {
-      setError("Category name is required");
-      return false;
-    }
-    setError("");
-    return true;
+  const initialState: CategoryFormState = {
+    success: false,
+    error: null,
   };
+
+  const action = category?.id
+    ? editCategory.bind(null, category.id)
+    : addCategory;
+
+  const [state, formAction, isPending] = useActionState(action, initialState);
+
+  useEffect(() => {
+    if (state.success) {
+      onClose();
+    }
+  }, [state.success, onClose]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setName(value);
-    validate(value);
+    if (value.trim()) setError("");
   };
 
-  const handleSubmit = async (e: React.ChangeEvent) => {
-    e.preventDefault();
-    if (!validate(name)) return;
-
-    setIsPending(true);
-    try {
-      if (category?.id) {
-        await editCategory({
-          id: category?.id,
-          name,
-        });
-      } else {
-        await addCategory({ name });
-      }
-    } catch (error) {
-      console.log(error);
-    } finally {
-      setIsPending(false);
-      onClose();
+  const handleSubmit = (e: React.ChangeEvent) => {
+    if (!name.trim()) {
+      e.preventDefault();
+      setError("Category name is required");
     }
   };
 
@@ -77,13 +69,17 @@ export function CategoryFormModal({
         <DialogDescription className="sr-only">
           Category management form
         </DialogDescription>
-        <form onSubmit={handleSubmit} className="space-y-6 pt-4">
+        <form
+          action={formAction}
+          onSubmit={handleSubmit}
+          className="space-y-6 pt-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-slate-500">
               Category Name
             </Label>
             <Input
               id="name"
+              name="name"
               value={name}
               onChange={handleNameChange}
               placeholder="Please enter category name"

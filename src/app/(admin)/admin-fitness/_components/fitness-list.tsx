@@ -8,6 +8,8 @@ import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { removeRoutine } from "@/actions/fitness";
 import { useOptimistic } from "react";
+import { useConfirm } from "@/hooks/use-confirm";
+
 
 export const FitnessList = ({
   routines,
@@ -18,6 +20,8 @@ export const FitnessList = ({
   totalPages: number;
   page: number;
 }) => {
+  const confirm = useConfirm((state) => state.confirm);
+  
   const columns: Columns<RoutineWithWorkout>[] = [
     {
       header: "Name",
@@ -57,14 +61,24 @@ export const FitnessList = ({
           <Link href={`/admin-fitness/edit/${item.id}`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
-          <form action={removeRoutineById.bind(null, item.id)}>
-            <BlogButton type="submit" action="del" name="Del" />
-          </form>
+          <BlogButton
+            type="submit"
+            action="del"
+            name="Del"
+            onClick={() => handleDelete(item.id)}
+          />
         </div>
       ),
       width: "250px",
     },
   ];
+
+  const handleDelete = (id: number) => {
+    confirm("Delete Routine?", "Really delete this?", async () => {
+      addOptimistic(id);
+      await removeRoutine(id);
+    });
+  };
 
   const [optimisticRoutines, addOptimistic] = useOptimistic(
     routines,
@@ -72,11 +86,6 @@ export const FitnessList = ({
       return currentRoutines.filter((r) => r.id !== routineId);
     },
   );
-
-  const removeRoutineById = async (id: number) => {
-    addOptimistic(id);
-    await removeRoutine(id);
-  };
 
   return (
     <>

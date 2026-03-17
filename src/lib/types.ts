@@ -32,6 +32,10 @@ export type CategoryInput = {
   id?: number;
   name: string;
 };
+export type CategoryFormState = {
+  success: boolean;
+  error: string | null;
+};
 
 export type ArticleWithCategory = Article & {
   category: Category;

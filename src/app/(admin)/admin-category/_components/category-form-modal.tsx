@@ -5,6 +5,7 @@ import BlogButton from "@/components/blog-buttons";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
@@ -26,9 +27,27 @@ export function CategoryFormModal({
 }: CategoryFormModalProps) {
   const [name, setName] = useState(category?.name || "");
   const [isPending, setIsPending] = useState(false);
+  const [error, setError] = useState("");
+
+  const validate = (value: string) => {
+    if (!value.trim()) {
+      setError("Category name is required");
+      return false;
+    }
+    setError("");
+    return true;
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setName(value);
+    validate(value);
+  };
 
   const handleSubmit = async (e: React.ChangeEvent) => {
     e.preventDefault();
+    if (!validate(name)) return;
+
     setIsPending(true);
     try {
       if (category?.id) {
@@ -43,6 +62,7 @@ export function CategoryFormModal({
       console.log(error);
     } finally {
       setIsPending(false);
+      onClose();
     }
   };
 
@@ -54,6 +74,9 @@ export function CategoryFormModal({
             {category ? "Edit Category" : "Add Category"}
           </DialogTitle>
         </DialogHeader>
+        <DialogDescription className="sr-only">
+          Category management form
+        </DialogDescription>
         <form onSubmit={handleSubmit} className="space-y-6 pt-4">
           <div className="space-y-2">
             <Label htmlFor="name" className="text-slate-500">
@@ -62,12 +85,18 @@ export function CategoryFormModal({
             <Input
               id="name"
               value={name}
-              onChange={(e) => setName(e.target.value)}
+              onChange={handleNameChange}
               placeholder="Please enter category name"
               autoComplete="off"
-              required
-              className="rounded-lg border-slate-200 focus:ring-slate-900"
+              className={`rounded-lg transition-all duration-200 ${error ? "border-red-500 focus-visible:ring-red-500" : "border-slate-200 focus-visible:ring-slate-900"}`}
             />
+            <div className="h-5">
+              {error && (
+                <p className="text-xs text-red-500 animate-in fade-in slide-in-from-top-1">
+                  {error}
+                </p>
+              )}
+            </div>
           </div>
           <div className="flex justify-end items-center gap-3">
             <BlogButton

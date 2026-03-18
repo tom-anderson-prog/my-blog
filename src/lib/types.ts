@@ -42,7 +42,9 @@ export type ArticleWithCategory = Article & {
   category: Category;
 };
 
-export type RoutineWithWorkout = Routine & {
+export type RoutineWithWorkout = Omit<Routine, "steps"> & {
+  steps: WorkoutStep[];
+} & {
   workoutSession: WorkoutSession[];
 };
 

@@ -59,7 +59,11 @@ export default function ControlButtons({
             size="icon"
             disabled={!activeRoutineId}
             className={`w-20 h-20 rounded-full shadow-lg transition-all ${isPaused ? "bg-linear-to-br from-[#ef611a] to-[#fc7836] hover:from-[#fc7836] hover:to-[#ef611a]" : "bg-linear-to-br from-[#fc7836] to-[#ef611a] hover:from-[#ef611a] hover:to-[#fc7836]"}`}
-            onClick={onTogglePause}
+            onClick={() => {
+              const unlock = new SpeechSynthesisUtterance("");
+              window.speechSynthesis.speak(unlock);
+              onTogglePause();
+            }}
             title={
               !isActive && !isPaused
                 ? "Play"

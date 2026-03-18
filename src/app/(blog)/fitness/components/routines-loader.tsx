@@ -1,12 +1,15 @@
 import { Suspense } from "react";
 import RoutinesInitializer from "./routines-initializer";
-import { FitnessRoutine, RoutineWithWorkout } from "@/lib/types";
+import { RoutineWithWorkout } from "@/lib/types";
 import { getEnabledRoutines } from "@/lib/data";
 
 export const getRoutines = async (): Promise<RoutineWithWorkout[]> => {
   const result = await getEnabledRoutines();
 
-  return result;
+  return result.map((item) => ({
+    ...item,
+    steps: (item.steps as any) || [],
+  })) as RoutineWithWorkout[];
 };
 
 export default async function RoutinesLoader({

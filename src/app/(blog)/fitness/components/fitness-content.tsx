@@ -89,6 +89,7 @@ export default function FitnessContentPage() {
               secondsLeft={secondsLeft}
               isActive={isActive}
               isPaused={isPaused}
+              currentStepName={currentStep?.name}
             />
           </motion.div>
         ) : (

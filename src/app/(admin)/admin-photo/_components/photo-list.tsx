@@ -46,7 +46,7 @@ export const PhotoList = ({
       header: "Actions",
       render: (item: BasicPhoto) => (
         <div className="flex justify-start items-center gap-3">
-          <Link href={`/admin-photo/edit/${item.id}`}>
+          <Link href={`/admin-photo/${item.id}/edit`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <BlogButton

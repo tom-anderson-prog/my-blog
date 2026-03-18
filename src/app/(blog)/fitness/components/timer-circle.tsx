@@ -1,3 +1,5 @@
+import { formatTime } from "@/lib/utils";
+
 interface TimerCircleProps {
   secondsLeft: number;
   duration: number;
@@ -9,8 +11,6 @@ export default function TimerCircle({
   duration,
   type = "EXERCISE",
 }: TimerCircleProps) {
-  const min = Math.floor(secondsLeft / 60);
-  const sec = secondsLeft % 60;
   const progress = duration > 0 ? secondsLeft / duration : 0;
 
   const ringColor = type === "REST" ? "#10b981" : "#f97316";
@@ -42,7 +42,7 @@ export default function TimerCircle({
 
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         <div className="text-7xl md:text-9xl font-black text-slate-800 tabular-nums tracking-tight">
-          {min.toString().padStart(2, "0")}:{sec.toString().padStart(2, "0")}
+          {formatTime(secondsLeft)}
         </div>
         <div className="text-slate-500 mt-3 text-xl">{label}</div>
       </div>

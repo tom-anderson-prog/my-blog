@@ -1,7 +1,7 @@
 "use server";
 
 import { createCategory, delCategory, updateCategory } from "@/lib/data";
-import { CategoryFormState, CategoryInput } from "@/lib/types";
+import { CategoryFormState } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function removeCategory(id: number) {

@@ -9,7 +9,7 @@ import BlogButton from "@/components/blog-buttons";
 import { removeRoutine } from "@/actions/fitness";
 import { useOptimistic } from "react";
 import { useConfirm } from "@/hooks/use-confirm";
-
+import { formatTime } from "@/lib/utils";
 
 export const FitnessList = ({
   routines,
@@ -21,7 +21,7 @@ export const FitnessList = ({
   page: number;
 }) => {
   const confirm = useConfirm((state) => state.confirm);
-  
+
   const columns: Columns<RoutineWithWorkout>[] = [
     {
       header: "Name",
@@ -35,7 +35,8 @@ export const FitnessList = ({
     },
     {
       header: "Total Duration",
-      render: (item: RoutineWithWorkout) => item.totalDuration,
+      render: (item: RoutineWithWorkout) =>
+        item.totalDuration ? formatTime(item.totalDuration) : "",
       width: "220px",
     },
     {
@@ -58,7 +59,7 @@ export const FitnessList = ({
       header: "Actions",
       render: (item: RoutineWithWorkout) => (
         <div className="flex justify-start items-center gap-3">
-          <Link href={`/admin-fitness/edit/${item.id}`}>
+          <Link href={`/admin-fitness/${item.id}/edit`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <BlogButton

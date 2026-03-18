@@ -49,13 +49,20 @@ export type RoutineWithWorkout = Routine & {
 export const stepSchema = z.object({
   type: z.enum(["EXERCISE", "REST"]),
   name: z.string().min(1, "Name is required"),
-  duration: z.coerce.number().min(0),
+  duration: z.preprocess(
+    (val) => Number(val),
+    z.number().min(0, "Duration must be positive"),
+  ),
 });
 
 export const routineSchema = z.object({
   name: z.string().min(1, "Routine name is required"),
-  repeatCount: z.coerce.number().min(1),
+  repeatCount: z.preprocess(
+    (val) => Number(val),
+    z.number().min(1, "At least 1"),
+  ),
   steps: z.array(stepSchema),
+  totalDuration: z.number().optional(),
 });
 
 export type RoutineFormValues = z.infer<typeof routineSchema>;

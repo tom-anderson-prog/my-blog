@@ -62,7 +62,7 @@ export const ArticleList = ({
               <BlogButton action="publish" name="Publish" type="submit" />
             </form>
           )}
-          <Link href={`/admin-articles/edit/${item.id}`}>
+          <Link href={`/admin-articles/${item.id}/edit`}>
             <BlogButton action="edit" name="Edit" type="button" />
           </Link>
           <BlogButton

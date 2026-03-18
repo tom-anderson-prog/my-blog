@@ -5,6 +5,7 @@ import {
   BasicCategory,
   BasicPhoto,
   CategoryInput,
+  RoutineFormValues,
 } from "./types";
 
 // ==============================
@@ -203,7 +204,6 @@ export const delCategory = async (id: number) => {
   });
 };
 
-
 // ==============================
 // fitness apis
 // ==============================
@@ -234,4 +234,28 @@ export const delRoutine = async (id: number) => {
   await prisma.routine.delete({
     where: { id: +id },
   });
+};
+
+export const createRoutine = async (data: RoutineFormValues) => {
+  await prisma.routine.create({
+    data,
+  });
+};
+
+export const updateRoutine = async (id: number, data: RoutineFormValues) => {
+  await prisma.routine.update({
+    where: { id },
+    data,
+  });
+};
+
+export const getRoutineById = async (id: number) => {
+  const result = await prisma.routine.findUnique({
+    where: { id },
+    include: {
+      workoutSession: true,
+    },
+  });
+
+  return result;
 };

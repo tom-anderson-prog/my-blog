@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { FitnessRoutine } from "@/lib/types";
+import { formatTime } from "@/lib/utils";
 import { motion, type Variants } from "framer-motion";
 import { Flame, Clock, CircleCheckBig, CircleCheck, Play } from "lucide-react";
 
@@ -16,12 +17,9 @@ export default function FitnessSuccessPage({
     activeRoutine.steps.reduce((a, b) => {
       return a + b.duration;
     }, 0) * (activeRoutine.repeatCount || 0);
-  const min = Math.floor(seconds / 60);
-  const sec = seconds % 60;
 
   const data = {
-    totalTime:
-      min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2, "0"),
+    totalTime: formatTime(seconds),
     calory: Math.floor((seconds * 7) / 60),
     exercises: activeRoutine.steps.filter((s) => s.type === "EXERCISE").length,
   };

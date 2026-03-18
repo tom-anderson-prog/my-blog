@@ -137,11 +137,11 @@ model Routine {
   name String
   isEnabled Boolean @default(true) @map("is_enabled")
   repeatCount Int @default(1) @map("repeat_count")
-  steps Json?
+  steps Json
   totalDuration Int? @map("total_duration")
 
   createdAt DateTime @default(now()) @map("created_at")
-  updatedAt DateTime @default(now()) @map("updated_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
 
   workoutSession WorkoutSession[]
   @@map("routines")

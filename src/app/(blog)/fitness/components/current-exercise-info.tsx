@@ -19,10 +19,10 @@ export default function CurrentExerciseInfo({
       </div>
 
       <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-slate-800 leading-tight mb-2">
-        {isRest ? "Rest Time" : name}
+        {name}
       </h1>
 
-      {!isRest && nextName && (
+      {nextName && (
         <div className="text-slate-500 text-sm md:text-md">
           NEXT UP:{" "}
           <span className="font-medium text-slate-700">{nextName}</span> →

@@ -13,7 +13,7 @@ import {
 // ==============================
 export const getLatestArticles = async () => {
   "use cache";
-  cacheLife("weeks");
+  cacheTag("latest-articles");
 
   const result = await prisma.article.findMany({
     take: 4,
@@ -25,7 +25,6 @@ export const getLatestArticles = async () => {
 
 export const getPublishedArticles = async () => {
   "use cache";
-  cacheLife("weeks");
   cacheTag("published-articles");
 
   const result = await prisma.category.findMany({
@@ -109,7 +108,6 @@ export const updateArticleStatus = async (
 // ==============================
 export const getPhotos = async () => {
   "use cache";
-  cacheLife("weeks");
   cacheTag("photos");
 
   const result = await prisma.photo.findMany({
@@ -207,6 +205,18 @@ export const delCategory = async (id: number) => {
 // ==============================
 // fitness apis
 // ==============================
+export const getEnabledRoutines = async () => {
+  "use cache";
+  cacheTag("routines");
+
+  const result = await prisma.routine.findMany({
+    where: { isEnabled: true },
+    orderBy: { updatedAt: "desc" },
+  });
+
+  return result;
+};
+
 export const getRoutinesByPage = async (page: number, limit: number = 10) => {
   const skip = (page - 1) * limit;
 

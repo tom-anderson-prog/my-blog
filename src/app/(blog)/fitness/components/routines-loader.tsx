@@ -1,30 +1,10 @@
 import { Suspense } from "react";
 import RoutinesInitializer from "./routines-initializer";
+import { FitnessRoutine, RoutineWithWorkout } from "@/lib/types";
+import { getEnabledRoutines } from "@/lib/data";
 
-import { FitnessRoutine } from "@/lib/types";
-
-export const getRoutines = async (): Promise<FitnessRoutine[]> => {
-  await new Promise((r) => setTimeout(r, 800));
-  const result: FitnessRoutine[] = [
-    {
-      id: 1,
-      name: "Morning Yoga",
-      isEnabled: true,
-      repeatCount: 1,
-      steps: [
-        {
-          id: 1,
-          type: "EXERCISE",
-          name: "Warm Up",
-          duration: 10,
-          order: 1,
-        },
-        { id: 2, type: "REST", name: "REST", duration: 10, order: 2 },
-        { id: 3, type: "EXERCISE", name: "Heihei", duration: 10, order: 3 },
-      ],
-      totalDuration: 30,
-    },
-  ];
+export const getRoutines = async (): Promise<RoutineWithWorkout[]> => {
+  const result = await getEnabledRoutines();
 
   return result;
 };

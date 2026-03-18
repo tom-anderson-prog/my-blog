@@ -1,11 +1,11 @@
 "use client";
 
-import { FitnessRoutine } from "@/lib/types";
+import { RoutineWithWorkout } from "@/lib/types";
 import { useWorkoutStore } from "@/stores/workoutStore";
 import { useEffect } from "react";
 
 interface RoutinesInitializerProps {
-  routines: FitnessRoutine[];
+  routines: RoutineWithWorkout[];
   children: React.ReactNode;
 }
 

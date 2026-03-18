@@ -12,7 +12,7 @@ export type WorkoutStep = {
   type: "EXERCISE" | "REST";
   name: string;
   duration: number;
-  order: number;
+  order?: number;
 };
 
 export type FitnessRoutine = {
@@ -53,6 +53,7 @@ export const stepSchema = z.object({
     (val) => Number(val),
     z.number().min(0, "Duration must be positive"),
   ),
+  order: z.number().optional(),
 });
 
 export const routineSchema = z.object({

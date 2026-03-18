@@ -1,7 +1,7 @@
 "use server";
 
 import { createRoutine, delRoutine, updateRoutine } from "@/lib/data";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { routineSchema } from "@/lib/types";
 import { redirect } from "next/navigation";
 
@@ -16,11 +16,16 @@ export async function addRoutine(data: any) {
 
   const { name, repeatCount, steps, totalDuration } = validatedData.data;
 
+  const stepsWithOrder = steps.map((s, index) => ({
+    ...s,
+    order: index + 1,
+  }));
+
   try {
     createRoutine({
       name,
       repeatCount,
-      steps,
+      steps: stepsWithOrder,
       totalDuration,
     });
   } catch (e) {
@@ -28,6 +33,7 @@ export async function addRoutine(data: any) {
   }
 
   revalidatePath("/admin-fitness");
+  revalidateTag("routines", "max");
   redirect("/admin-fitness");
 }
 
@@ -37,11 +43,16 @@ export async function editRoutine(id: number, data: any) {
 
   const { name, repeatCount, steps, totalDuration } = validatedData.data;
 
+  const stepsWithOrder = steps.map((s, index) => ({
+    ...s,
+    order: index + 1,
+  }));
+
   try {
     updateRoutine(id, {
       name,
       repeatCount,
-      steps,
+      steps: stepsWithOrder,
       totalDuration,
     });
   } catch (e) {
@@ -49,5 +60,6 @@ export async function editRoutine(id: number, data: any) {
   }
 
   revalidatePath("/admin-fitness");
+  revalidateTag("routines", "max");
   redirect("/admin-fitness");
 }

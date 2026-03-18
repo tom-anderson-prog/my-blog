@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { FitnessRoutine } from "@/lib/types";
+import { RoutineWithWorkout } from "@/lib/types";
 import { formatTime } from "@/lib/utils";
 import { motion, type Variants } from "framer-motion";
 import { Flame, Clock, CircleCheckBig, CircleCheck, Play } from "lucide-react";
@@ -10,7 +10,7 @@ export default function FitnessSuccessPage({
   activeRoutine,
   onRestart,
 }: {
-  activeRoutine: FitnessRoutine;
+  activeRoutine: RoutineWithWorkout;
   onRestart: () => void;
 }) {
   const seconds =

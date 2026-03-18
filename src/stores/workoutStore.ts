@@ -1,18 +1,18 @@
-import { WorkoutStep, FitnessRoutine } from "./../lib/types";
+import { RoutineWithWorkout } from "./../lib/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
 interface WorkoutState {
-  routines: FitnessRoutine[];
+  routines: RoutineWithWorkout[];
   activeRoutineId: number | null;
-  activeRoutine: FitnessRoutine | null;
+  activeRoutine: RoutineWithWorkout | null;
   currentStepIndex: number;
   secondsLeft: number;
   isActive: boolean;
   isPaused: boolean;
   completed: boolean;
 
-  setRoutines: (routines: FitnessRoutine[]) => void;
+  setRoutines: (routines: RoutineWithWorkout[]) => void;
   setActiveRoutine: (id: number) => void;
   start: () => void;
   pause: () => void;
@@ -41,7 +41,11 @@ export const useWorkoutStore = create<WorkoutState>()(
       },
       setActiveRoutine: (id: number) => {
         const routine = get().routines.find((r) => r.id === id);
-        if (!routine || routine.steps.length === 0) return;
+        if (
+          !routine ||
+          (Array.isArray(routine?.steps) && routine?.steps.length === 0)
+        )
+          return;
 
         const first = routine.steps[0];
         set({
@@ -61,7 +65,11 @@ export const useWorkoutStore = create<WorkoutState>()(
         const routine = data.routines.find(
           (r) => r.id === data.activeRoutineId,
         );
-        if (!routine || routine.steps.length === 0) return;
+        if (
+          !routine ||
+          (Array.isArray(routine?.steps) && routine?.steps.length === 0)
+        )
+          return;
 
         const first = routine.steps[0];
         set({

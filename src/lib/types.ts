@@ -1,3 +1,4 @@
+import * as z from "zod";
 import {
   Article,
   Category,
@@ -44,3 +45,17 @@ export type ArticleWithCategory = Article & {
 export type RoutineWithWorkout = Routine & {
   workoutSession: WorkoutSession[];
 };
+
+export const stepSchema = z.object({
+  type: z.enum(["EXERCISE", "REST"]),
+  name: z.string().min(1, "Name is required"),
+  duration: z.coerce.number().min(0),
+});
+
+export const routineSchema = z.object({
+  name: z.string().min(1, "Routine name is required"),
+  repeatCount: z.coerce.number().min(1),
+  steps: z.array(stepSchema),
+});
+
+export type RoutineFormValues = z.infer<typeof routineSchema>;

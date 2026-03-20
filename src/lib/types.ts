@@ -69,3 +69,28 @@ export const routineSchema = z.object({
 });
 
 export type RoutineFormValues = z.infer<typeof routineSchema>;
+
+export const photoSchema = z.object({
+  url: z.url("Please upload an image").min(1, "Photo is required"),
+  caption: z
+    .string()
+    .min(2, "Caption is too short")
+    .max(50, "Caption is too long"),
+  description: z
+    .string()
+    .max(200, "Description must be under 200 characters")
+    .optional()
+    .or(z.literal("")),
+});
+
+export type PhotoFormValues = z.infer<typeof photoSchema>;
+
+export const articleSchema = z.object({
+  title: z.string(),
+  content: z.string(),
+  image: z.url(),
+  categoryId: z.number(),
+  status: z.string().optional(),
+});
+
+export type ArticleFormValues = z.infer<typeof articleSchema>;

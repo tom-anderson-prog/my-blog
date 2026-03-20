@@ -1,10 +1,9 @@
-import { cacheLife, cacheTag } from "next/cache";
+import { cacheTag } from "next/cache";
 import prisma from "./prisma";
 import {
   BasicArticle,
-  BasicCategory,
-  BasicPhoto,
   CategoryInput,
+  PhotoFormValues,
   RoutineFormValues,
 } from "./types";
 
@@ -147,9 +146,15 @@ export const getPhotosByPage = async (page: number, limit: number = 10) => {
   };
 };
 
-export const updatePhoto = async (data: BasicPhoto) => {
+export const createPhoto = async (data: PhotoFormValues) => {
+  await prisma.photo.create({
+    data,
+  });
+};
+
+export const updatePhoto = async (id: number, data: PhotoFormValues) => {
   await prisma.photo.update({
-    where: { id: data.id },
+    where: { id },
     data,
   });
 };

@@ -103,8 +103,7 @@ export function ImageUploader({
           </div>
         ) : (
           <div
-            className={`h-64 flex flex-col items-center justify-center cursor-pointer ${uploading ? "opacity-60 cursor-not-allowed" : ""}`}
-            onClick={triggerFileInput}>
+            className={`h-64 flex flex-col items-center justify-center cursor-pointer ${uploading ? "opacity-60 cursor-not-allowed" : ""}`}>
             <ImagePlus className="w-8 h-8 font-light" />
             <p className="text-sm font-semibold text-slate-700">
               Click to upload photo

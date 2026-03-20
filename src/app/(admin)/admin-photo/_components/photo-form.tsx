@@ -131,11 +131,7 @@ export default function PhotoForm({
           type="submit"
           disabled={isSubmitting}
           className="bg-slate-900 text-white hover:bg-slate-800 px-10 h-12 rounded-xl font-black disabled:opacity-50">
-          {isSubmitting
-            ? "Saving..."
-            : initialData?.id
-              ? "Update Photo"
-              : "Save Photo"}
+          {isSubmitting ? "Saving..." : isEdit ? "Update Photo" : "Save Photo"}
         </Button>
       </div>
     </form>

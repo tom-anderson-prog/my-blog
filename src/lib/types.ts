@@ -86,11 +86,11 @@ export const photoSchema = z.object({
 export type PhotoFormValues = z.infer<typeof photoSchema>;
 
 export const articleSchema = z.object({
-  title: z.string(),
-  content: z.string(),
-  image: z.url(),
-  categoryId: z.number(),
-  status: z.string().optional(),
+  title: z.string().min(2, "Title is too short").max(100, "Title is too long"),
+  content: z.string().min(10, "Content is too short"),
+  image: z.url().optional().or(z.literal("")),
+  categoryId: z.string(),
+  status: z.enum(["DRAFT", "PUBLISHED"]).optional(),
 });
 
 export type ArticleFormValues = z.infer<typeof articleSchema>;

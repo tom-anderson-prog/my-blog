@@ -1,7 +1,7 @@
 import { cacheTag } from "next/cache";
 import prisma from "./prisma";
 import {
-  BasicArticle,
+  ArticleFormValues,
   CategoryInput,
   PhotoFormValues,
   RoutineFormValues,
@@ -77,9 +77,15 @@ export const getArticleById = async (id: string) => {
   return result;
 };
 
-export const updateArticle = async (data: BasicArticle) => {
+export const createArticle = async (data: ArticleFormValues) => {
+  await prisma.article.create({
+    data,
+  });
+};
+
+export const updateArticle = async (id: number, data: ArticleFormValues) => {
   await prisma.article.update({
-    where: { id: data.id },
+    where: { id },
     data,
   });
 };
@@ -87,18 +93,6 @@ export const updateArticle = async (data: BasicArticle) => {
 export const delArticle = async (id: number) => {
   await prisma.article.delete({
     where: { id: +id },
-  });
-};
-
-export const updateArticleStatus = async (
-  id: number,
-  newStatus: "DRAFT" | "PUBLISHED",
-) => {
-  await prisma.article.update({
-    where: { id },
-    data: {
-      status: newStatus,
-    },
   });
 };
 
@@ -186,6 +180,21 @@ export const getCategoryByPage = async (page: number, limit: number = 10) => {
     categories,
     totalPages: Math.ceil(totalCount / limit),
   };
+};
+
+export const getAllCategories = async () => {
+  "use cache";
+  cacheTag("categories");
+
+  const result = await prisma.category.findMany({
+    orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      name: true,
+    },
+  });
+
+  return result;
 };
 
 export const createCategory = async (data: CategoryInput) => {

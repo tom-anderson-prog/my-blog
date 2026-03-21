@@ -1,3 +1,4 @@
+import ArticlePreview from "@/components/article-preview";
 import { getArticleById } from "@/lib/data";
 import { format } from "date-fns";
 import Image from "next/image";
@@ -27,7 +28,10 @@ export default async function ArticleContent({
           <Image src={data.image || ""} alt="" fill className="object-cover" />
         </div>
       )}
-      <div className="mx-3 text-base/6 text-left mb-8">{data.content}</div>
+
+      <div className="mx-3 text-base/6 text-left mb-8">
+        <ArticlePreview content={data.content} />
+      </div>
     </>
   );
 }

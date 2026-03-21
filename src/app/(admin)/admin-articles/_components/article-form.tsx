@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useEffect } from "react";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ArticleFormProps {
   initialData?: ArticleFormValues;
@@ -65,11 +66,15 @@ export default function ArticleForm({
   }, [initialData, reset]);
 
   const onSubmit = async (values: ArticleFormValues) => {
+    if (values.status === "PUBLISHED") {
+      values.publishedAt = new Date();
+    }
     const result = await submitAction(values);
     if (!result.error) {
       toast.error(result.error);
     }
   };
+
   return (
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
       <header className="mb-8">
@@ -97,6 +102,22 @@ export default function ArticleForm({
             <div className="min-h-1 mt-1">
               <FieldError className="text-[11px] leading-none">
                 {errors.title?.message}
+              </FieldError>
+            </div>
+          </Field>
+
+          <Field>
+            <FieldLabel>Article Abstract</FieldLabel>
+            <FieldContent>
+              <Textarea
+                {...register("abstract")}
+                placeholder="Please enter your article abstract"
+                className="text-lg"
+              />
+            </FieldContent>
+            <div className="min-h-1 mt-1">
+              <FieldError className="text-[11px] leading-none">
+                {errors.abstract?.message}
               </FieldError>
             </div>
           </Field>

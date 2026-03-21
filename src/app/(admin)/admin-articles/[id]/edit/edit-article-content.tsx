@@ -22,6 +22,7 @@ export default async function EditArticleContent({
       categories={categories}
       initialData={{
         title: article.title,
+        abstract: article.abstract,
         content: article.content,
         image: article.image || "",
         categoryId: String(article.categoryId),

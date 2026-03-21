@@ -15,6 +15,7 @@ export const getLatestArticles = async () => {
   cacheTag("latest-articles");
 
   const result = await prisma.article.findMany({
+    where: { status: "PUBLISHED" },
     take: 4,
     orderBy: { createdAt: "desc" },
   });

@@ -10,6 +10,7 @@ interface ArticleCardProps {
     id: number;
     title: string;
     content: string;
+    abstract: string;
     image: string | null;
     status: string;
     publishedAt: Date | null;
@@ -62,7 +63,7 @@ export default function ArticleCard({
               {article.title}
             </h2>
             <div className="text-sm text-slate-500 line-clamp-9 cursor-pointer group-hover:text-slate-700 transition-colors duration-300">
-              {article.content}
+              {article.abstract}
             </div>
           </Link>
         </motion.div>
@@ -100,7 +101,7 @@ export default function ArticleCard({
                     : format(article.createdAt, "PP")}
                 </div>
                 <div className="text-sm line-clamp-1 text-slate-500 font-light">
-                  {article.content}
+                  {article.abstract}
                 </div>
               </div>
             </div>

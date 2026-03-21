@@ -22,6 +22,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useEffect } from "react";
 
 interface ArticleFormProps {
   initialData?: ArticleFormValues;
@@ -44,6 +45,7 @@ export default function ArticleForm({
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm({
     defaultValues: initialData || {
@@ -55,6 +57,12 @@ export default function ArticleForm({
     },
     resolver: zodResolver(articleSchema),
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (values: ArticleFormValues) => {
     const result = await submitAction(values);

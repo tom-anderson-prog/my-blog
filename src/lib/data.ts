@@ -46,6 +46,8 @@ export const getPublishedArticles = async () => {
 };
 
 export const getArticlesByPage = async (page: number, limit: number = 10) => {
+  "use cache";
+  cacheTag("articles-page");
   const skip = (page - 1) * limit;
 
   const [articles, totalCount] = await Promise.all([
@@ -77,13 +79,18 @@ export const getArticleById = async (id: string) => {
   return result;
 };
 
-export const createArticle = async (data: ArticleFormValues) => {
+export const createArticle = async (
+  data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
+) => {
   await prisma.article.create({
     data,
   });
 };
 
-export const updateArticle = async (id: number, data: ArticleFormValues) => {
+export const updateArticle = async (
+  id: number,
+  data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
+) => {
   await prisma.article.update({
     where: { id },
     data,

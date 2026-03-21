@@ -14,6 +14,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { photoSchema, type PhotoFormValues } from "@/lib/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -33,6 +34,7 @@ export default function PhotoForm({
     register,
     handleSubmit,
     control,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<PhotoFormValues>({
     defaultValues: initialData || {
@@ -42,6 +44,12 @@ export default function PhotoForm({
     },
     resolver: zodResolver(photoSchema),
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const onSubmit = async (values: PhotoFormValues) => {
     const result = await submitAction(values);

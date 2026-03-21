@@ -19,8 +19,6 @@ export const uploadFileToOSS = async (file: File): Promise<string> => {
   formData.append("signature", signature);
   formData.append("file", file);
 
-  console.log("Uploading to host:", host);
-
   const uploadRes = await fetch(host, {
     method: "POST",
     body: formData,

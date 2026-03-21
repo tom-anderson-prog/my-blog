@@ -17,8 +17,6 @@ export default function FitnessContentPage() {
   const isActive = useWorkoutStore((state) => state.isActive);
   const isPaused = useWorkoutStore((state) => state.isPaused);
   const completed = useWorkoutStore((state) => state.completed);
-  console.log({ completed });
-
 
   const { start, tick, restart, resume, pause, skip } =
     useWorkoutStore.getState();

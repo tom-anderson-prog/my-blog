@@ -40,7 +40,6 @@ export function ImageUploader({
       toast.success("Upload successful", { id: loadingToast });
     } catch (error) {
       toast.error("Upload failed, please try again", { id: loadingToast });
-      console.error(error);
     } finally {
       setUploading(false);
       if (fileInputRef.current) {

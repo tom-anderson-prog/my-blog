@@ -17,3 +17,5 @@ export const auth = betterAuth({
   // 配置密钥
   secret: process.env.BETTER_AUTH_SECRET,
 });
+
+export type SessionType = typeof auth.$Infer.Session;

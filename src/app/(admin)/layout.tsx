@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import "md-editor-rt/lib/style.css";
-import "md-editor-rt/lib/preview.css";       
-import SideBar from "@/components/side-bar";
+import "md-editor-rt/lib/preview.css";
 import { AdminProviders } from "@/components/admin-provider";
 import { GlobalConfirmModal } from "@/hooks/use-confirm";
 
@@ -33,9 +32,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="flex h-screen w-full bg-slate-50/50">
           <AdminProviders>
-            <aside className="h-full border-r border-slate-200 bg-white">
-              <SideBar />
-            </aside>
             <main className="flex-1 h-full overflow-y-auto p-8">
               {children}
               <GlobalConfirmModal />

@@ -6,6 +6,7 @@ import {
   PhotoFormValues,
   RoutineFormValues,
 } from "./types";
+import { dalDbOperation, dalRequireAuth } from "@/dal/helpers";
 
 // ==============================
 // article apis
@@ -46,29 +47,33 @@ export const getPublishedArticles = async () => {
   return result;
 };
 
-export const getArticlesByPage = async (page: number, limit: number = 10) => {
+async function fetchArticlesFromDb(page: number, limit: number) {
   "use cache";
   cacheTag("articles-page");
-  const skip = (page - 1) * limit;
 
-  const [articles, totalCount] = await Promise.all([
-    prisma.article.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        category: true,
-      },
-    }),
-    prisma.article.count(),
-  ]);
+  return await dalDbOperation(async () => {
+    const skip = (page - 1) * limit;
+    const [articles, totalCount] = await Promise.all([
+      prisma.article.findMany({
+        skip,
+        take: limit,
+        orderBy: { createdAt: "desc" },
+        include: { category: true },
+      }),
+      prisma.article.count(),
+    ]);
 
-  return {
-    articles,
-    totalPages: Math.ceil(totalCount / limit),
-  };
+    return {
+      articles,
+      totalPages: Math.ceil(totalCount / limit),
+    };
+  });
+}
+
+export const getArticlesByPage = async (page: number, limit: number = 10) => {
+  return await dalRequireAuth(async () => {
+    return await fetchArticlesFromDb(page, limit);
+  });
 };
 
 export const getArticleById = async (id: string) => {
@@ -83,8 +88,14 @@ export const getArticleById = async (id: string) => {
 export const createArticle = async (
   data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
 ) => {
-  await prisma.article.create({
-    data,
+  return dalRequireAuth(() => {
+    return dalDbOperation(async () => {
+      const result = await prisma.article.create({
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
@@ -92,15 +103,27 @@ export const updateArticle = async (
   id: number,
   data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
 ) => {
-  await prisma.article.update({
-    where: { id },
-    data,
+  return dalRequireAuth(() => {
+    return dalDbOperation(async () => {
+      const result = await prisma.article.update({
+        where: { id },
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const delArticle = async (id: number) => {
-  await prisma.article.delete({
-    where: { id: +id },
+  return dalRequireAuth(() => {
+    return dalDbOperation(async () => {
+      const result = await prisma.article.delete({
+        where: { id: +id },
+      });
+
+      return result;
+    });
   });
 };
 

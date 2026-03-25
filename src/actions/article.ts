@@ -1,13 +1,19 @@
 "use server";
 
+import { dalFormatErrorMessage, dalLoginRedirect } from "@/dal/helpers";
 import { delArticle, updateArticle, createArticle } from "@/lib/data";
 import { articleSchema } from "@/lib/types";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function removeArticle(id: number) {
-  await delArticle(id);
-  revalidatePath("/admin-article");
+  const res = dalLoginRedirect(await delArticle(id));
+
+  if (res.success) {
+    revalidatePath("/admin-article");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }
 
 export async function addArticle(data: any) {
@@ -16,20 +22,22 @@ export async function addArticle(data: any) {
 
   const { categoryId } = validatedData.data;
 
-  try {
-    createArticle({
+  const res = dalLoginRedirect(
+    await createArticle({
       ...validatedData.data,
       categoryId: Number(categoryId),
-    });
-  } catch (e) {
-    return { error: e instanceof Error ? e.message : "Failed to add article" };
-  }
+    }),
+  );
 
-  revalidatePath("/admin-articles");
-  revalidateTag("published-articles", "max");
-  revalidateTag("latest-articles", "max");
-  revalidateTag("articles-page", "default");
-  redirect("/admin-articles");
+  if (res.success) {
+    revalidatePath("/admin-articles");
+    revalidateTag("published-articles", "max");
+    revalidateTag("latest-articles", "max");
+    revalidateTag("articles-page", "default");
+    redirect("/admin-articles");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }
 
 export async function editArticle(id: number, data: any) {
@@ -38,18 +46,20 @@ export async function editArticle(id: number, data: any) {
 
   const { categoryId } = validatedData.data;
 
-  try {
-    updateArticle(id, {
+  const res = dalLoginRedirect(
+    await updateArticle(id, {
       ...validatedData.data,
       categoryId: Number(categoryId),
-    });
-  } catch (e) {
-    return { error: e instanceof Error ? e.message : "Failed to edit article" };
-  }
+    }),
+  );
 
-  revalidatePath("/admin-articles");
-  revalidateTag("published-articles", "max");
-  revalidateTag("latest-articles", "max");
-  revalidateTag("articles-page", "default");
-  redirect("/admin-articles");
+  if (res.success) {
+    revalidatePath("/admin-articles");
+    revalidateTag("published-articles", "max");
+    revalidateTag("latest-articles", "max");
+    revalidateTag("articles-page", "default");
+    redirect("/admin-articles");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }

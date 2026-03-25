@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useOptimistic } from "react";
 import { removeArticle } from "@/actions/article";
 import { useConfirm } from "@/hooks/use-confirm";
+import { toast } from "sonner";
 
 export const ArticleList = ({
   articles,
@@ -20,7 +21,7 @@ export const ArticleList = ({
   page: number;
 }) => {
   const confirm = useConfirm((state) => state.confirm);
-  
+
   const columns: Columns<ArticleWithCategory>[] = [
     {
       header: "Title",
@@ -75,7 +76,15 @@ export const ArticleList = ({
   const handleDelete = (id: number) => {
     confirm("Delete Article?", "Really delete this?", async () => {
       addOptimistic(id);
-      await removeArticle(id);
+      try {
+        const res = await removeArticle(id);
+        if (res) {
+          toast.error(res);
+        }
+      } catch (e) {
+        console.error("Failed to delete article:", e);
+        toast.error("Failed to delete article.Please try again.");
+      }
     });
   };
 

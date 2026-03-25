@@ -4,6 +4,7 @@ import type { SearchParams } from "nuqs/server";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { ArticleList } from "./article-list";
+import { dalVerifySuccess } from "@/dal/helpers";
 
 export default async function ArticleTableContent({
   params,
@@ -13,7 +14,9 @@ export default async function ArticleTableContent({
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
 
-  const { articles, totalPages } = await getArticlesByPage(currentPage);
+  const { articles, totalPages } = dalVerifySuccess(
+    await getArticlesByPage(currentPage),
+  );
 
   return (
     <>

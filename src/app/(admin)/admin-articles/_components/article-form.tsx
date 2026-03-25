@@ -69,10 +69,21 @@ export default function ArticleForm({
     if (values.status === "PUBLISHED") {
       values.publishedAt = new Date();
     }
-    const result = await submitAction(values);
-    if (!result.error) {
-      toast.error(result.error);
+    try {
+      const result = await submitAction(values);
+      if (result) {
+        toast.error(result);
+      }
+    } catch (e) {
+      console.error(
+        `${isEdit ? "Failed to update article" : "Failed to add article"}`,
+        e,
+      );
+      toast.error(
+        `${isEdit ? "Failed to update article" : "Failed to add article"}.Please try again.`,
+      );
     }
+    
   };
 
   return (

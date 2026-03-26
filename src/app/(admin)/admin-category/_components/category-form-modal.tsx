@@ -43,10 +43,10 @@ export function CategoryFormModal({
   useEffect(() => {
     if (state.success) {
       onClose();
-    } else {
+    } else if (state.error) {
       toast.error(state.error);
     }
-  }, [state.success, onClose, state, error]);
+  }, [state.success, onClose, state.error]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

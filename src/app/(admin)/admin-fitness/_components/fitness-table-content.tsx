@@ -4,6 +4,8 @@ import type { SearchParams } from "nuqs/server";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { FitnessList } from "./fitness-list";
+import { dalVerifySuccess } from "@/dal/helpers";
+import { RoutineWithWorkout } from "@/lib/types";
 
 export default async function FitnessTableContent({
   params,
@@ -12,7 +14,9 @@ export default async function FitnessTableContent({
 }) {
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
-  const { routines, totalPages } = await getRoutinesByPage(currentPage);
+  const { routines, totalPages } = dalVerifySuccess(
+    await getRoutinesByPage(currentPage),
+  );
 
   return (
     <>
@@ -28,7 +32,11 @@ export default async function FitnessTableContent({
           }
         />
       </Link>
-      <FitnessList routines={routines} totalPages={totalPages} page={page} />
+      <FitnessList
+        routines={routines as RoutineWithWorkout[]}
+        totalPages={totalPages}
+        page={page}
+      />
     </>
   );
 }

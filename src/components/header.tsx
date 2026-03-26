@@ -103,13 +103,13 @@ export default function Header() {
                 </AlertDialogHeader>
 
                 <AlertDialogFooter className="mt-4">
-                  <AlertDialogCancel className="rounded-xl border-slate-100 hover:border-slate-50">
+                  <AlertDialogCancel className="rounded-md border-slate-100 hover:border-slate-50">
                     Cancel
                   </AlertDialogCancel>
                   <AlertDialogAction
                     onClick={handleSignOut}
                     disabled={isExiting}
-                    className="rounded-xl bg-red-600 hover:bg-red-700 text-white flex items-center gap-2">
+                    className="rounded-md bg-red-600 hover:bg-red-700 text-white flex items-center gap-2">
                     {isExiting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : null}

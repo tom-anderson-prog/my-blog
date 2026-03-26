@@ -120,7 +120,11 @@ export const CategoryList = ({
         location="/admin-category"
       />
       <CategoryFormModal
-        key={editingCategory?.id || "new"}
+        key={
+          editingCategory?.id
+            ? `edit-${editingCategory.id}`
+            : `add-${isModalOpen}`
+        }
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
         category={editingCategory}

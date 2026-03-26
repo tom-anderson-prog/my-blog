@@ -21,7 +21,7 @@ export default function LoginPage() {
   };
 
   return (
-    <div className="min-h-screen w-full flex items-center justify-center bg-slate-50 bg-[radial-gradient(#e5e7eb_1px, transparent_1px)] bg-size-[16px_16px]">
+    <div className="h-full w-full flex items-center justify-center bg-slate-50 bg-[radial-gradient(#e5e7eb_1px, transparent_1px)] bg-size-[16px_16px]">
       <div className="w-full max-w-100 p-8 bg-white rounded-2xl shadow-sm border border-slate-100 flex flex-col items-center">
         <div className="mb-8 text-center">
           <h2 className="text-sm font-bold tracking-tight text-slate-900 uppercase">

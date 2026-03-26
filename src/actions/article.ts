@@ -33,7 +33,6 @@ export async function addArticle(data: any) {
     revalidatePath("/admin-articles");
     revalidateTag("published-articles", "max");
     revalidateTag("latest-articles", "max");
-    // revalidateTag("articles-page", "default");
     redirect("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);
@@ -57,7 +56,6 @@ export async function editArticle(id: number, data: any) {
     revalidatePath("/admin-articles");
     revalidateTag("published-articles", "max");
     revalidateTag("latest-articles", "max");
-    // revalidateTag("articles-page", "default");
     redirect("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);

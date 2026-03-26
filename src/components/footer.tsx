@@ -9,14 +9,14 @@ export default function Footer() {
           target="_blank"
           rel="noopenner noreferrer"
           aria-label="twitter address">
-          <Twitter className="w-4 h-4 cursor-pointer" />
+          <Twitter className="w-4 h-4 cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200" />
         </a>
         <a
           href="https://github.com/tom-anderson-prog"
           target="_blank"
           rel="noopenner noreferrer"
           aria-label="github address">
-          <Github className="w-4 h-4 cursor-pointer" />
+          <Github className="w-4 h-4 cursor-pointer hover:scale-110 active:scale-95 transition-all duration-200" />
         </a>
       </div>
       <div>@2026 At&apos;s blog.All rights reserved.</div>

@@ -1,12 +1,18 @@
 "use server";
 
+import { dalFormatErrorMessage, dalLoginRedirect } from "@/dal/helpers";
 import { createCategory, delCategory, updateCategory } from "@/lib/data";
 import { CategoryFormState } from "@/lib/types";
 import { revalidatePath } from "next/cache";
 
 export async function removeCategory(id: number) {
-  await delCategory(id);
-  revalidatePath("/admin-category");
+  const res = dalLoginRedirect(await delCategory(id));
+
+  if (res.success) {
+    revalidatePath("/admin-category");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }
 
 export async function addCategory(
@@ -15,19 +21,22 @@ export async function addCategory(
 ) {
   const name = formData.get("name") as string;
 
-  try {
+  const res = dalLoginRedirect(
     await createCategory({
       name,
-    });
+    }),
+  );
+
+  if (res.success) {
     revalidatePath("/admin-category");
     return {
       success: true,
       error: null,
     };
-  } catch (error) {
+  } else {
     return {
       success: false,
-      error: error instanceof Error ? error.message : "Failed to add category",
+      error: dalFormatErrorMessage(res.error),
     };
   }
 }
@@ -39,22 +48,23 @@ export async function editCategory(
 ) {
   const name = formData.get("name") as string;
 
-  try {
+  const res = dalLoginRedirect(
     await updateCategory({
       id,
       name,
-    });
-    revalidatePath("/admin-category");
+    }),
+  );
 
+  if (res.success) {
+    revalidatePath("/admin-category");
     return {
       success: true,
       error: null,
     };
-  } catch (error) {
+  } else {
     return {
       success: false,
-      error:
-        error instanceof Error ? error.message : "Failed to update category",
+      error: dalFormatErrorMessage(res.error),
     };
   }
 }

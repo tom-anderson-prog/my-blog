@@ -52,10 +52,19 @@ export default function PhotoForm({
   }, [initialData, reset]);
 
   const onSubmit = async (values: PhotoFormValues) => {
-    const result = await submitAction(values);
-
-    if (result?.error) {
-      toast.error(result.error);
+    try {
+      const result = await submitAction(values);
+      if (result) {
+        toast.error(result);
+      }
+    } catch (e) {
+      console.error(
+        `${isEdit ? "Failed to update photo" : "Failed to add photo"}`,
+        e,
+      );
+      toast.error(
+        `${isEdit ? "Failed to update photo" : "Failed to add photo"}.Please try again.`,
+      );
     }
   };
 

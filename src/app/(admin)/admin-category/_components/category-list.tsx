@@ -5,10 +5,11 @@ import CommonTable, { type Columns } from "@/components/common-table";
 import { BasicCategory } from "@/lib/types";
 import { format } from "date-fns";
 import BlogButton from "@/components/blog-buttons";
-import { useOptimistic, useState } from "react";
+import { useOptimistic, useState, useTransition } from "react";
 import { removeCategory } from "@/actions/category";
 import { CategoryFormModal } from "./category-form-modal";
 import { useConfirm } from "@/hooks/use-confirm";
+import { toast } from "sonner";
 
 export const CategoryList = ({
   categories,
@@ -24,6 +25,7 @@ export const CategoryList = ({
     null,
   );
   const confirm = useConfirm((state) => state.confirm);
+  const [isPending, startTransition] = useTransition();
 
   const handleAdd = () => {
     setEditingCategory(null);
@@ -66,6 +68,7 @@ export const CategoryList = ({
             type="submit"
             action="del"
             name="Del"
+            disabled={isPending}
             onClick={() => handleDelete(item.id)}
           />
         </div>
@@ -74,9 +77,19 @@ export const CategoryList = ({
   ];
 
   const handleDelete = (id: number) => {
-    confirm("Delete Category?", "Really delete this?", async () => {
-      addOptimistic(id);
-      await removeCategory(id);
+    confirm("Delete Category?", "Really delete this?", () => {
+      startTransition(async () => {
+        try {
+          addOptimistic(id);
+          const res = await removeCategory(id);
+          if (res) {
+            toast.error(res);
+          }
+        } catch (e) {
+          console.error("Failed to delete category: ", e);
+          toast.error("Failed to delete category.Please try again.");
+        }
+      });
     });
   };
 

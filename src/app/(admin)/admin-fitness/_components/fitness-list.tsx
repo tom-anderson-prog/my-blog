@@ -7,9 +7,10 @@ import { format } from "date-fns";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { removeRoutine } from "@/actions/fitness";
-import { useOptimistic } from "react";
+import { useOptimistic, useTransition } from "react";
 import { useConfirm } from "@/hooks/use-confirm";
 import { formatTime } from "@/lib/utils";
+import { toast } from "sonner";
 
 export const FitnessList = ({
   routines,
@@ -21,6 +22,7 @@ export const FitnessList = ({
   page: number;
 }) => {
   const confirm = useConfirm((state) => state.confirm);
+  const [isPending, startTransition] = useTransition();
 
   const columns: Columns<RoutineWithWorkout>[] = [
     {
@@ -66,18 +68,29 @@ export const FitnessList = ({
             type="submit"
             action="del"
             name="Del"
+            disabled={isPending}
             onClick={() => handleDelete(item.id)}
           />
         </div>
       ),
-      width: "250px",
+      width: "200px",
     },
   ];
 
   const handleDelete = (id: number) => {
-    confirm("Delete Routine?", "Really delete this?", async () => {
-      addOptimistic(id);
-      await removeRoutine(id);
+    confirm("Delete Routine?", "Really delete this?", () => {
+      startTransition(async () => {
+        addOptimistic(id);
+        try {
+          const res = await removeRoutine(id);
+          if (res) {
+            toast.error(res);
+          }
+        } catch (e) {
+          console.error("Failed to delete routine: ", e);
+          toast.error("Failed to delete routine.");
+        }
+      });
     });
   };
 

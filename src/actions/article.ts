@@ -10,7 +10,7 @@ export async function removeArticle(id: number) {
   const res = dalLoginRedirect(await delArticle(id));
 
   if (res.success) {
-    revalidatePath("/admin-article");
+    revalidatePath("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);
   }
@@ -33,7 +33,7 @@ export async function addArticle(data: any) {
     revalidatePath("/admin-articles");
     revalidateTag("published-articles", "max");
     revalidateTag("latest-articles", "max");
-    revalidateTag("articles-page", "default");
+    // revalidateTag("articles-page", "default");
     redirect("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);
@@ -57,7 +57,7 @@ export async function editArticle(id: number, data: any) {
     revalidatePath("/admin-articles");
     revalidateTag("published-articles", "max");
     revalidateTag("latest-articles", "max");
-    revalidateTag("articles-page", "default");
+    // revalidateTag("articles-page", "default");
     redirect("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);

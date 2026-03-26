@@ -47,32 +47,25 @@ export const getPublishedArticles = async () => {
   return result;
 };
 
-async function fetchArticlesFromDb(page: number, limit: number) {
-  "use cache";
-  cacheTag("articles-page");
-
-  return await dalDbOperation(async () => {
-    const skip = (page - 1) * limit;
-    const [articles, totalCount] = await Promise.all([
-      prisma.article.findMany({
-        skip,
-        take: limit,
-        orderBy: { createdAt: "desc" },
-        include: { category: true },
-      }),
-      prisma.article.count(),
-    ]);
-
-    return {
-      articles,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  });
-}
-
 export const getArticlesByPage = async (page: number, limit: number = 10) => {
   return await dalRequireAuth(async () => {
-    return await fetchArticlesFromDb(page, limit);
+    return await dalDbOperation(async () => {
+      const skip = (page - 1) * limit;
+      const [articles, totalCount] = await Promise.all([
+        prisma.article.findMany({
+          skip,
+          take: limit,
+          orderBy: { createdAt: "desc" },
+          include: { category: true },
+        }),
+        prisma.article.count(),
+      ]);
+
+      return {
+        articles,
+        totalPages: Math.ceil(totalCount / limit),
+      };
+    });
   });
 };
 
@@ -88,8 +81,8 @@ export const getArticleById = async (id: string) => {
 export const createArticle = async (
   data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
 ) => {
-  return dalRequireAuth(() => {
-    return dalDbOperation(async () => {
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
       const result = await prisma.article.create({
         data,
       });
@@ -103,8 +96,8 @@ export const updateArticle = async (
   id: number,
   data: Omit<ArticleFormValues, "categoryId"> & { categoryId: number },
 ) => {
-  return dalRequireAuth(() => {
-    return dalDbOperation(async () => {
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
       const result = await prisma.article.update({
         where: { id },
         data,
@@ -116,8 +109,8 @@ export const updateArticle = async (
 };
 
 export const delArticle = async (id: number) => {
-  return dalRequireAuth(() => {
-    return dalDbOperation(async () => {
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
       const result = await prisma.article.delete({
         where: { id: +id },
       });
@@ -152,41 +145,63 @@ export const getPhotoById = async (id: string) => {
 };
 
 export const getPhotosByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const skip = (page - 1) * limit;
 
-  const [photos, totalCount] = await Promise.all([
-    prisma.photo.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
-    prisma.photo.count(),
-  ]);
+      const [photos, totalCount] = await Promise.all([
+        prisma.photo.findMany({
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: "desc",
+          },
+        }),
+        prisma.photo.count(),
+      ]);
 
-  return {
-    photos,
-    totalPages: Math.ceil(totalCount / limit),
-  };
+      return {
+        photos,
+        totalPages: Math.ceil(totalCount / limit),
+      };
+    });
+  });
 };
 
 export const createPhoto = async (data: PhotoFormValues) => {
-  await prisma.photo.create({
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.photo.create({
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const updatePhoto = async (id: number, data: PhotoFormValues) => {
-  await prisma.photo.update({
-    where: { id },
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.photo.update({
+        where: { id },
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const delPhoto = async (id: number) => {
-  await prisma.photo.delete({
-    where: { id: +id },
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.photo.delete({
+        where: { id: +id },
+      });
+
+      return result;
+    });
   });
 };
 
@@ -194,23 +209,27 @@ export const delPhoto = async (id: number) => {
 // category apis
 // ==============================
 export const getCategoryByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const skip = (page - 1) * limit;
 
-  const [categories, totalCount] = await Promise.all([
-    prisma.category.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-    }),
-    prisma.category.count(),
-  ]);
+      const [categories, totalCount] = await Promise.all([
+        prisma.category.findMany({
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: "desc",
+          },
+        }),
+        prisma.category.count(),
+      ]);
 
-  return {
-    categories,
-    totalPages: Math.ceil(totalCount / limit),
-  };
+      return {
+        categories,
+        totalPages: Math.ceil(totalCount / limit),
+      };
+    });
+  });
 };
 
 export const getAllCategories = async () => {
@@ -229,21 +248,39 @@ export const getAllCategories = async () => {
 };
 
 export const createCategory = async (data: CategoryInput) => {
-  await prisma.category.create({
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.category.create({
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const updateCategory = async (data: CategoryInput) => {
-  await prisma.category.update({
-    where: { id: data.id },
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.category.update({
+        where: { id: data.id },
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const delCategory = async (id: number) => {
-  await prisma.category.delete({
-    where: { id: +id },
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.category.delete({
+        where: { id: +id },
+      });
+
+      return result;
+    });
   });
 };
 
@@ -263,44 +300,66 @@ export const getEnabledRoutines = async () => {
 };
 
 export const getRoutinesByPage = async (page: number, limit: number = 10) => {
-  const skip = (page - 1) * limit;
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const skip = (page - 1) * limit;
 
-  const [routines, totalCount] = await Promise.all([
-    prisma.routine.findMany({
-      skip,
-      take: limit,
-      orderBy: {
-        createdAt: "desc",
-      },
-      include: {
-        workoutSession: true,
-      },
-    }),
-    prisma.routine.count(),
-  ]);
+      const [routines, totalCount] = await Promise.all([
+        prisma.routine.findMany({
+          skip,
+          take: limit,
+          orderBy: {
+            createdAt: "desc",
+          },
+          include: {
+            workoutSession: true,
+          },
+        }),
+        prisma.routine.count(),
+      ]);
 
-  return {
-    routines,
-    totalPages: Math.ceil(totalCount / limit),
-  };
+      return {
+        routines,
+        totalPages: Math.ceil(totalCount / limit),
+      };
+    });
+  });
 };
 
 export const delRoutine = async (id: number) => {
-  await prisma.routine.delete({
-    where: { id: +id },
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.routine.delete({
+        where: { id: +id },
+      });
+
+      return result;
+    });
   });
 };
 
 export const createRoutine = async (data: RoutineFormValues) => {
-  await prisma.routine.create({
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.routine.create({
+        data,
+      });
+
+      return result;
+    });
   });
 };
 
 export const updateRoutine = async (id: number, data: RoutineFormValues) => {
-  await prisma.routine.update({
-    where: { id },
-    data,
+  return await dalRequireAuth(async () => {
+    return await dalDbOperation(async () => {
+      const result = await prisma.routine.update({
+        where: { id },
+        data,
+      });
+
+      return result;
+    });
   });
 };
 

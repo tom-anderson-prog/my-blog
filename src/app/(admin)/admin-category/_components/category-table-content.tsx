@@ -2,6 +2,7 @@ import { loadPagination } from "@/hooks/use-query";
 import { getCategoryByPage } from "@/lib/data";
 import type { SearchParams } from "nuqs/server";
 import { CategoryList } from "./category-list";
+import { dalVerifySuccess } from "@/dal/helpers";
 
 export default async function CategoryTableContent({
   params,
@@ -10,7 +11,9 @@ export default async function CategoryTableContent({
 }) {
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
-  const { categories, totalPages } = await getCategoryByPage(currentPage);
+  const { categories, totalPages } = dalVerifySuccess(
+    await getCategoryByPage(currentPage),
+  );
 
   return (
     <>

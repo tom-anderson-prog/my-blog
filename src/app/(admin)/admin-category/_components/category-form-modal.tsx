@@ -13,6 +13,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BasicCategory, CategoryFormState } from "@/lib/types";
 import { useActionState, useState, useEffect } from "react";
+import { toast } from "sonner";
 
 interface CategoryFormModalProps {
   isOpen: boolean;
@@ -42,8 +43,10 @@ export function CategoryFormModal({
   useEffect(() => {
     if (state.success) {
       onClose();
+    } else {
+      toast.error(state.error);
     }
-  }, [state.success, onClose]);
+  }, [state.success, onClose, state, error]);
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;

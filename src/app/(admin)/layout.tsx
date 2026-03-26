@@ -32,7 +32,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <div className="flex h-screen w-full bg-slate-50/50">
           <AdminProviders>
-            <main className="flex-1 h-full overflow-y-auto p-8">
+            <main className="flex-1 h-full overflow-y-auto px-8 pb-8">
               {children}
               <GlobalConfirmModal />
             </main>

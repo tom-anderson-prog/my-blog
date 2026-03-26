@@ -4,6 +4,7 @@ import type { SearchParams } from "nuqs/server";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { PhotoList } from "./photo-list";
+import { dalVerifySuccess } from "@/dal/helpers";
 
 export default async function PhotoTableContent({
   params,
@@ -13,7 +14,9 @@ export default async function PhotoTableContent({
   const { page } = await loadPagination(params);
   const currentPage = Number(page) || 1;
 
-  const { photos, totalPages } = await getPhotosByPage(currentPage);
+  const { photos, totalPages } = dalVerifySuccess(
+    await getPhotosByPage(currentPage),
+  );
   return (
     <>
       <Link href={`/admin-photo/new`}>

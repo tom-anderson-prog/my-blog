@@ -29,6 +29,7 @@ export default function RoutineForm({
   submitAction: (data: RoutineFormValues) => Promise<any>;
 }) {
   const router = useRouter();
+  const isEdit = !!initialData;
   const {
     register,
     control,
@@ -73,12 +74,22 @@ export default function RoutineForm({
   }, [initialData, reset]);
 
   const onSubmit = async (values: RoutineFormValues) => {
-    const result = await submitAction({
-      ...values,
-      totalDuration: totalSeconds,
-    });
-    if (result?.error) {
-      toast.error(result.error);
+    try {
+      const result = await submitAction({
+        ...values,
+        totalDuration: totalSeconds,
+      });
+      if (result) {
+        toast.error(result);
+      }
+    } catch (e) {
+      console.error(
+        `${isEdit ? "Failed to update routine" : "Failed to add routine"}`,
+        e,
+      );
+      toast.error(
+        `${isEdit ? "Failed to update routine" : "Failed to add routine"}.Please try again.`,
+      );
     }
   };
 
@@ -246,7 +257,7 @@ export default function RoutineForm({
             className="bg-slate-900 text-white hover:bg-slate-800 px-10 h-12 rounded-xl font-black disabled:opacity-50">
             {isSubmitting
               ? "Saving..."
-              : initialData?.id
+              : isEdit
                 ? "Update Routine"
                 : "Save Routine"}
           </Button>

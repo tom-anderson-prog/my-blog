@@ -7,9 +7,9 @@ import { format } from "date-fns";
 import Link from "next/link";
 import BlogButton from "@/components/blog-buttons";
 import { removePhoto } from "@/actions/photo";
-import { useOptimistic } from "react";
+import { useOptimistic, useTransition } from "react";
 import { useConfirm } from "@/hooks/use-confirm";
-
+import { toast } from "sonner";
 
 export const PhotoList = ({
   photos,
@@ -21,7 +21,8 @@ export const PhotoList = ({
   page: number;
 }) => {
   const confirm = useConfirm((state) => state.confirm);
-  
+  const [isPending, startTransition] = useTransition();
+
   const columns: Columns<BasicPhoto>[] = [
     {
       header: "Caption",
@@ -36,6 +37,7 @@ export const PhotoList = ({
     {
       header: "Description",
       render: (item: BasicPhoto) => item.description,
+      width: "300px",
     },
     {
       header: "Create Time",
@@ -53,18 +55,29 @@ export const PhotoList = ({
             type="submit"
             action="del"
             name="Del"
+            disabled={isPending}
             onClick={() => handleDelete(item.id)}
           />
         </div>
       ),
-      width: "250px",
+      width: "200px",
     },
   ];
 
   const handleDelete = (id: number) => {
-    confirm("Delete Photo?", "Really delete this?", async () => {
-      addOptimistic(id);
-      await removePhoto(id);
+    confirm("Delete Photo?", "Really delete this?", () => {
+      startTransition(async () => {
+        addOptimistic(id);
+        try {
+          const res = await removePhoto(id);
+          if (res) {
+            toast.error(res);
+          }
+        } catch (e) {
+          console.error("Failed to delete photo: ", e);
+          toast.error("Failed to delete photo.");
+        }
+      });
     });
   };
 

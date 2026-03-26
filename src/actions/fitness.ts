@@ -4,10 +4,16 @@ import { createRoutine, delRoutine, updateRoutine } from "@/lib/data";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { routineSchema } from "@/lib/types";
 import { redirect } from "next/navigation";
+import { dalFormatErrorMessage, dalLoginRedirect } from "@/dal/helpers";
 
 export async function removeRoutine(id: number) {
-  await delRoutine(id);
-  revalidatePath("/admin-fitness");
+  const res = dalLoginRedirect(await delRoutine(id));
+
+  if (res.success) {
+    revalidatePath("/admin-fitness");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }
 
 export async function addRoutine(data: any) {
@@ -21,20 +27,22 @@ export async function addRoutine(data: any) {
     order: index + 1,
   }));
 
-  try {
-    createRoutine({
+  const res = dalLoginRedirect(
+    await createRoutine({
       name,
       repeatCount,
       steps: stepsWithOrder,
       totalDuration,
-    });
-  } catch (e) {
-    return { error: "Failed to create routines" };
-  }
+    }),
+  );
 
-  revalidatePath("/admin-fitness");
-  revalidateTag("routines", "max");
-  redirect("/admin-fitness");
+  if (res.success) {
+    revalidatePath("/admin-fitness");
+    revalidateTag("routines", "max");
+    redirect("/admin-fitness");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }
 
 export async function editRoutine(id: number, data: any) {
@@ -48,18 +56,20 @@ export async function editRoutine(id: number, data: any) {
     order: index + 1,
   }));
 
-  try {
-    updateRoutine(id, {
+  const res = dalLoginRedirect(
+    await updateRoutine(id, {
       name,
       repeatCount,
       steps: stepsWithOrder,
       totalDuration,
-    });
-  } catch (e) {
-    return { error: "Failed to update routines" };
-  }
+    }),
+  );
 
-  revalidatePath("/admin-fitness");
-  revalidateTag("routines", "max");
-  redirect("/admin-fitness");
+  if (res.success) {
+    revalidatePath("/admin-fitness");
+    revalidateTag("routines", "max");
+    redirect("/admin-fitness");
+  } else {
+    return dalFormatErrorMessage(res.error);
+  }
 }

@@ -20,7 +20,7 @@ interface CommonTableProps<T> {
   minWidth?: string; // table min width, px or %
 }
 
-export default function CommonTable<T>({
+export default function CommonTable<T extends { id: string | number }>({
   columns,
   data,
   minWidth = "800px",
@@ -44,8 +44,8 @@ export default function CommonTable<T>({
 
           <TableBody>
             {data.length > 0 ? (
-              data.map((item, rowIndex) => (
-                <TableRow key={rowIndex} className="group transition-colors">
+              data.map((item) => (
+                <TableRow key={item.id} className="group transition-colors">
                   {columns.map((col, colIndex) => (
                     <TableCell key={colIndex} className="px-6 py-4 truncate">
                       <TableTooltip>{col.render(item)}</TableTooltip>

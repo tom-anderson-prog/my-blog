@@ -47,7 +47,9 @@ export default function ArticleCard({
           whileHover={{ y: -4 }}
           key={article.id}
           className="flex-1">
-          <Link href={`/articles/${article.id}`} className="group block">
+          <Link
+            href={`/articles/${article.id}?title=${article.title}`}
+            className="group block">
             <div className="relative aspect-video w-full mb-4 md:mb-6 rounded-xl saturate-[0.3] group-hover:saturate-100 cursor-pointer overflow-hidden shadow-sm group-hover:shadow-xl transition-shadow duration-300">
               <Image
                 src={article.image || ""}
@@ -77,7 +79,7 @@ export default function ArticleCard({
             ease: "easeOut",
           }}>
           <Link
-            href={`/articles/${article.id}`}
+            href={`/articles/${article.id}?title=${article.title}`}
             key={article.id}
             className="group block">
             <div className="flex justify-start items-center py-2">

@@ -38,7 +38,7 @@ export default function PhotoItem({ photo, index }: PhotoItemProps) {
       }}
       key={photo.id}
       className="relative aspect-3/4 rounded-2xl overflow-hidden bg-slate-100 saturate-[0.3] group-hover:saturate-100 shadow-md hover:shadow-xl group cursor-pointer">
-      <Link href={`/photo-wall/${photo.id}`}>
+      <Link href={`/photo-wall/${photo.id}?caption=${photo.caption}`}>
         <Image
           src={photo.url}
           alt={photo.caption}

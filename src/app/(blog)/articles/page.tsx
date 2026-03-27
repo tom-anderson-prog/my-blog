@@ -2,6 +2,11 @@ import ArticleCard from "@/components/article-card";
 import PageTitle from "@/components/page-title";
 import { getPublishedArticles } from "@/lib/data";
 import { Suspense } from "react";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Articles",
+};
 
 export default async function ArticlesPage() {
   const data = await getPublishedArticles();

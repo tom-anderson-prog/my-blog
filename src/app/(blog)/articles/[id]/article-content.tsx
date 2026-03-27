@@ -23,11 +23,6 @@ export default async function ArticleContent({
           Published on {data.publishedAt && format(data.publishedAt, "PP")}
         </div>
       </div>
-      {data?.image && (
-        <div className="relative w-full aspect-video rounded-sm overflow-hidden shadow-sm mb-4">
-          <Image src={data.image || ""} alt="" fill className="object-cover" />
-        </div>
-      )}
 
       <div className="mx-3 text-base/6 text-left mb-8">
         <ArticlePreview content={data.content} />

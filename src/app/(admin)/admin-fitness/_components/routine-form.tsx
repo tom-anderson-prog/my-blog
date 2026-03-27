@@ -239,7 +239,10 @@ export default function RoutineForm({
           type="button"
           variant="ghost"
           className="text-slate-400 hover:bg-slate-100"
-          onClick={() => router.back()}>
+          onClick={() => {
+            reset();
+            router.back();
+          }}>
           Cancel
         </Button>
         <div className="flex items-center gap-8">

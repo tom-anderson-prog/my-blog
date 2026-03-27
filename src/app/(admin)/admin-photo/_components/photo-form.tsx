@@ -141,7 +141,10 @@ export default function PhotoForm({
           type="button"
           variant="ghost"
           className="text-slate-400 hover:bg-slate-100"
-          onClick={() => router.back()}>
+          onClick={() => {
+            reset();
+            router.back();
+          }}>
           Cancel
         </Button>
         <Button

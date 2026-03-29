@@ -1,18 +1,14 @@
-import PhotoModal from "@/components/photo-modal";
-import { getPhotoById } from "@/lib/data";
+import { Suspense } from "react";
+import PhotoModalContent from "./photo-modal-content";
 
 export default async function PhotoModalPage({
   params,
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const { id } = await params;
-  const data = await getPhotoById(id);
-
-  if (!data) return null;
   return (
-    <>
-      <PhotoModal image={data} />
-    </>
+    <Suspense>
+      <PhotoModalContent params={params} />
+    </Suspense>
   );
 }

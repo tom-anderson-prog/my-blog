@@ -48,6 +48,8 @@ export default function PhotoForm({
   useEffect(() => {
     if (initialData) {
       reset(initialData);
+    } else {
+      reset();
     }
   }, [initialData, reset]);
 

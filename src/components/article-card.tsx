@@ -1,5 +1,6 @@
 "use client";
 
+import { getOptimizedImage } from "@/lib/utils";
 import { format } from "date-fns";
 import { motion } from "framer-motion";
 import Image from "next/image";
@@ -48,11 +49,11 @@ export default function ArticleCard({
           key={article.id}
           className="flex-1">
           <Link
-            href={`/articles/${article.id}?title=${article.title}`}
+            href={`/articles/${article.id}?title=${JSON.stringify(article.title)}`}
             className="group block">
             <div className="relative aspect-video w-full mb-4 md:mb-6 rounded-xl saturate-[0.3] group-hover:saturate-100 cursor-pointer overflow-hidden shadow-sm group-hover:shadow-xl transition-shadow duration-300">
               <Image
-                src={article.image || ""}
+                src={getOptimizedImage(article.image!, 300, 60) || ""}
                 alt={article.title}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
@@ -79,13 +80,13 @@ export default function ArticleCard({
             ease: "easeOut",
           }}>
           <Link
-            href={`/articles/${article.id}?title=${article.title}`}
+            href={`/articles/${article.id}?title=${JSON.stringify(article.title)}`}
             key={article.id}
             className="group block">
             <div className="flex justify-start items-center py-2">
               <div className="relative mr-2 w-20 h-20 shrink-0 shadow-sm saturate-[0.3] group-hover:saturate-100 rounded-xl overflow-hidden group-hover:shadow-md transition-shadow duration-300">
                 <Image
-                  src={article.image || ""}
+                  src={getOptimizedImage(article.image!, 200, 50) || ""}
                   alt={article.title}
                   fill
                   sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

@@ -9,6 +9,7 @@ export default function ArticlePreview({ content }: { content: string }) {
       previewTheme="github"
       codeTheme="atom-one-dark"
       id="preview-only"
+      language="en-US"
       className="bg-transparent! border-none! p-0!"
     />
   );

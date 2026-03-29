@@ -2,6 +2,7 @@ import { editRoutine } from "@/actions/fitness";
 import RoutineForm from "../../_components/routine-form";
 import { getRoutineById } from "@/lib/data";
 import { notFound } from "next/navigation";
+import { Suspense } from "react";
 
 export default async function NewRoutinePage({
   params,
@@ -23,15 +24,17 @@ export default async function NewRoutinePage({
         </h1>
         <p className="text-slate-500">Modify your workout steps and timing.</p>
       </header>
-      <RoutineForm
-        submitAction={submitAction}
-        initialData={{
-          id: data.id,
-          name: data.name,
-          repeatCount: data.repeatCount,
-          steps: (data.steps as any[]) || [],
-        }}
-      />
+      <Suspense>
+        <RoutineForm
+          submitAction={submitAction}
+          initialData={{
+            id: data.id,
+            name: data.name,
+            repeatCount: data.repeatCount,
+            steps: (data.steps as any[]) || [],
+          }}
+        />
+      </Suspense>
     </div>
   );
 }

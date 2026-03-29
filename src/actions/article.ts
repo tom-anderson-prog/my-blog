@@ -11,6 +11,8 @@ export async function removeArticle(id: number) {
 
   if (res.success) {
     revalidatePath("/admin-articles");
+    revalidateTag(`article-${id}`, "max");
+    revalidatePath(`articles/${id}`);
   } else {
     return dalFormatErrorMessage(res.error);
   }
@@ -56,6 +58,8 @@ export async function editArticle(id: number, data: any) {
     revalidatePath("/admin-articles");
     revalidateTag("published-articles", "max");
     revalidateTag("latest-articles", "max");
+    revalidateTag(`article-${id}`, "max");
+    revalidatePath(`articles/${id}`);
     redirect("/admin-articles");
   } else {
     return dalFormatErrorMessage(res.error);

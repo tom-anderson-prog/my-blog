@@ -1,5 +1,6 @@
 import { addRoutine } from "@/actions/fitness";
 import RoutineForm from "../_components/routine-form";
+import { Suspense } from "react";
 
 export default function NewRoutinePage() {
   return (
@@ -10,7 +11,9 @@ export default function NewRoutinePage() {
         </h1>
         <p className="text-slate-500">Create a custom workout sequence.</p>
       </header>
-      <RoutineForm submitAction={addRoutine} />
+      <Suspense>
+        <RoutineForm submitAction={addRoutine} />
+      </Suspense>
     </div>
   );
 }

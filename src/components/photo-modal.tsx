@@ -41,7 +41,7 @@ export default function PhotoModal({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-999 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 md:p-10">
+      className="fixed inset-0 z-99999 flex items-center justify-center bg-black/70 backdrop-blur-md p-4 md:p-10">
       <motion.div
         initial={{ opacity: 0, scale: 0.9, y: 20 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}

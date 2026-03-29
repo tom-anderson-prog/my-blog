@@ -62,6 +62,8 @@ export default function ArticleForm({
   useEffect(() => {
     if (initialData) {
       reset(initialData);
+    } else {
+      reset();
     }
   }, [initialData, reset]);
 

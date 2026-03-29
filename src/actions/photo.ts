@@ -11,6 +11,8 @@ export async function removePhoto(id: number) {
 
   if (res.success) {
     revalidatePath("/admin-photo");
+    revalidateTag(`photo-${id}`, "max");
+    revalidatePath(`photo-wall/${id}`);
   } else {
     return dalFormatErrorMessage(res.error);
   }
@@ -40,6 +42,8 @@ export async function editPhoto(id: number, data: any) {
   if (res.success) {
     revalidatePath("/admin-photo");
     revalidateTag("photos", "max");
+    revalidateTag(`photo-${id}`, "max");
+    revalidatePath(`photo-wall/${id}`);
     redirect("/admin-photo");
   } else {
     return dalFormatErrorMessage(res.error);

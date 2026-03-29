@@ -71,6 +71,7 @@ export const getArticlesByPage = async (page: number, limit: number = 10) => {
 
 export const getArticleById = async (id: string) => {
   "use cache";
+  cacheTag(`article-${id}`);
 
   const result = await prisma.article.findUnique({
     where: { id: +id },
@@ -136,6 +137,7 @@ export const getPhotos = async () => {
 
 export const getPhotoById = async (id: string) => {
   "use cache";
+  cacheTag(`photo-${id}`);
 
   const result = await prisma.photo.findUnique({
     where: { id: +id },

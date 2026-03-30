@@ -3,7 +3,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import { differenceInSeconds } from "date-fns";
 import { toast } from "sonner";
-import { addWorkoutSeesion, setRoutineStartTime } from "@/actions/fitness";
+import { addWorkoutSeesion } from "@/actions/fitness";
 
 interface WorkoutState {
   routines: RoutineWithWorkout[];

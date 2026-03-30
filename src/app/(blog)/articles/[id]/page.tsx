@@ -21,7 +21,7 @@ export async function generateStaticParams() {
   const photos = await prisma.article.findMany({
     select: { id: true },
     orderBy: { createdAt: "desc" },
-    take: 5,
+    take: 10,
   });
 
   return photos.map((photo) => ({

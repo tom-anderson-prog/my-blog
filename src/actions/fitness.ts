@@ -1,10 +1,19 @@
 "use server";
 
-import { createRoutine, delRoutine, updateRoutine } from "@/lib/data";
+import {
+  createRoutine,
+  createWorkout,
+  delRoutine,
+  updateRoutine,
+} from "@/lib/data";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { routineSchema } from "@/lib/types";
+import { routineSchema, WorkoutSessionFormValues } from "@/lib/types";
 import { redirect } from "next/navigation";
-import { dalFormatErrorMessage, dalLoginRedirect } from "@/dal/helpers";
+import {
+  dalFormatErrorMessage,
+  dalLoginRedirect,
+  dalRequireAuthOperation,
+} from "@/dal/helpers";
 
 export async function removeRoutine(id: number) {
   const res = dalLoginRedirect(await delRoutine(id));
@@ -72,4 +81,10 @@ export async function editRoutine(id: number, data: any) {
   } else {
     return dalFormatErrorMessage(res.error);
   }
+}
+
+export async function addWorkoutSeesion(data: WorkoutSessionFormValues) {
+  await dalRequireAuthOperation(async () => {
+    return await createWorkout(data);
+  });
 }

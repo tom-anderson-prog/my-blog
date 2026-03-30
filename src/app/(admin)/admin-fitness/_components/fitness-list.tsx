@@ -42,7 +42,7 @@ export const FitnessList = ({
       width: "220px",
     },
     {
-      header: "Work Session Times",
+      header: "Workout Session Times",
       render: (item: RoutineWithWorkout) => {
         if (Array.isArray(item.workoutSession)) {
           return item.workoutSession.length;

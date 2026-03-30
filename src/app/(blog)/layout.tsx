@@ -1,5 +1,6 @@
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import { Toaster } from "@/components/ui/sonner"
 
 export default function BlogLayout({
   children,
@@ -11,6 +12,7 @@ export default function BlogLayout({
       <Header />
       <main className="grow bg-white w-full max-w-4xl mx-auto px-4 md:px-6">
         {children}
+        <Toaster />
       </main>
       <Footer />
     </div>

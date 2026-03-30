@@ -72,6 +72,16 @@ export async function dalRequireAuth<T>(
   return operation(session);
 }
 
+export async function dalRequireAuthOperation(operation: () => void) {
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) {
+    return operation();
+  }
+}
+
 export function dalFormatErrorMessage(error: DalError) {
   const type = error.type;
 

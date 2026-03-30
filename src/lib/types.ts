@@ -99,3 +99,5 @@ export const articleSchema = z.object({
 });
 
 export type ArticleFormValues = z.infer<typeof articleSchema>;
+
+export type WorkoutSessionFormValues = Omit<WorkoutSession, "id">;

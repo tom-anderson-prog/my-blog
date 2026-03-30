@@ -1,6 +1,9 @@
 import { RoutineWithWorkout } from "./../lib/types";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { differenceInSeconds } from "date-fns";
+import { toast } from "sonner";
+import { addWorkoutSeesion, setRoutineStartTime } from "@/actions/fitness";
 
 interface WorkoutState {
   routines: RoutineWithWorkout[];
@@ -11,6 +14,7 @@ interface WorkoutState {
   isActive: boolean;
   isPaused: boolean;
   completed: boolean;
+  startTime: Date | null;
 
   setRoutines: (routines: RoutineWithWorkout[]) => void;
   setActiveRoutine: (id: number) => void;
@@ -33,6 +37,7 @@ export const useWorkoutStore = create<WorkoutState>()(
       isActive: false,
       isPaused: false,
       completed: false,
+      startTime: null,
 
       setRoutines: (routines) => {
         if (Array.isArray(routines) && routines.length > 0) {
@@ -55,9 +60,12 @@ export const useWorkoutStore = create<WorkoutState>()(
           secondsLeft: first.duration,
           isActive: false,
           isPaused: false,
+          startTime: null,
         });
       },
-      start: () => set({ isActive: true, isPaused: false }),
+      start: () => {
+        set({ isActive: true, isPaused: false, startTime: new Date() });
+      },
       pause: () => set({ isPaused: true }),
       resume: () => set({ isPaused: false }),
       restart: () => {
@@ -78,9 +86,10 @@ export const useWorkoutStore = create<WorkoutState>()(
           isActive: false,
           isPaused: false,
           completed: false,
+          startTime: null,
         });
       },
-      skip: () => {
+      skip: async () => {
         const data = get();
         const routine = data.routines.find(
           (r) => r.id === data.activeRoutineId,
@@ -89,7 +98,32 @@ export const useWorkoutStore = create<WorkoutState>()(
 
         const nextIndex = get().currentStepIndex + 1;
         if (nextIndex >= routine.steps.length) {
-          set({ isActive: false, secondsLeft: 0, completed: true });
+          const startTime = data.startTime;
+          set({
+            isActive: false,
+            secondsLeft: 0,
+            completed: true,
+            startTime: null,
+          });
+          if (startTime) {
+            const endTime = new Date();
+            const totalSeconds = differenceInSeconds(endTime, startTime);
+            try {
+              await addWorkoutSeesion({
+                routineId: routine.id,
+                routineName: routine.name,
+                startedAt: startTime,
+                endedAt: endTime,
+                duration: totalSeconds,
+                completed:
+                  totalSeconds >= (routine.totalDuration || 0) ? true : false,
+              });
+              toast.success("Congratulations!");
+            } catch (e) {
+              console.error("Failed to create WorkoutSession", e);
+            }
+          }
+
           return;
         }
 

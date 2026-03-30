@@ -5,6 +5,7 @@ import {
   CategoryInput,
   PhotoFormValues,
   RoutineFormValues,
+  WorkoutSessionFormValues,
 } from "./types";
 import { dalDbOperation, dalRequireAuth } from "@/dal/helpers";
 
@@ -371,6 +372,14 @@ export const getRoutineById = async (id: number) => {
     include: {
       workoutSession: true,
     },
+  });
+
+  return result;
+};
+
+export const createWorkout = async (data: WorkoutSessionFormValues) => {
+  const result = await prisma.workoutSession.create({
+    data,
   });
 
   return result;

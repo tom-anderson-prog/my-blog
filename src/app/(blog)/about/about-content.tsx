@@ -2,8 +2,10 @@
 
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 
 export default function AboutContentPage() {
+  const pathname = usePathname();
   const containerVars: Variants = {
     initial: { opacity: 0 },
     animate: {
@@ -25,6 +27,7 @@ export default function AboutContentPage() {
 
   return (
     <motion.div
+      key={pathname}
       variants={containerVars}
       initial="initial"
       animate="animate"
@@ -37,7 +40,7 @@ export default function AboutContentPage() {
           }}
           transition={{ type: "spring", stiffness: 120, damping: 12 }}>
           <Image
-            src="https://img-typora-irving.oss-cn-shanghai.aliyuncs.com/blog/avatar.png"
+            src="https://img-typora-irving.oss-cn-shanghai.aliyuncs.com/blog/avatar.png?x-oss-process=image/resize,w_300,m_lfit/format,webp/quality,q_30"
             alt="avatar"
             width={240}
             height={240}

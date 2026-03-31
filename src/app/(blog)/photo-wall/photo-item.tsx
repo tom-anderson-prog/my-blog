@@ -1,5 +1,6 @@
 "use client";
 
+import { getOptimizedImage } from "@/lib/utils";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -41,7 +42,7 @@ export default function PhotoItem({ photo, index }: PhotoItemProps) {
       <Link
         href={`/photo-wall/${photo.id}?caption=${JSON.stringify(photo.caption)}`}>
         <Image
-          src={photo.url}
+          src={getOptimizedImage(photo.url, 300, 80)}
           alt={photo.caption}
           fill
           priority={index <= 12}

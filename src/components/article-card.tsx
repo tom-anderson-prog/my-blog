@@ -53,7 +53,7 @@ export default function ArticleCard({
             className="group block">
             <div className="relative aspect-video w-full mb-4 md:mb-6 rounded-xl saturate-[0.3] group-hover:saturate-100 cursor-pointer overflow-hidden shadow-sm group-hover:shadow-xl transition-shadow duration-300">
               <Image
-                src={getOptimizedImage(article.image!, 300, 60) || ""}
+                src={getOptimizedImage(article.image!, 300, 50) || ""}
                 alt={article.title}
                 fill
                 sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"

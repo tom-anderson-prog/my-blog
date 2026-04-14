@@ -59,7 +59,8 @@ export const ModelName = {
   Article: 'Article',
   Photo: 'Photo',
   Routine: 'Routine',
-  WorkoutSession: 'WorkoutSession'
+  WorkoutSession: 'WorkoutSession',
+  FocusSession: 'FocusSession'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -201,6 +202,24 @@ export const WorkoutSessionScalarFieldEnum = {
 } as const
 
 export type WorkoutSessionScalarFieldEnum = (typeof WorkoutSessionScalarFieldEnum)[keyof typeof WorkoutSessionScalarFieldEnum]
+
+
+export const FocusSessionScalarFieldEnum = {
+  id: 'id',
+  startTime: 'startTime',
+  endTime: 'endTime',
+  mode: 'mode',
+  shortBreak: 'shortBreak',
+  longBreak: 'longBreak',
+  longBreakAfterNumCycles: 'longBreakAfterNumCycles',
+  pomodoroDuration: 'pomodoroDuration',
+  cycles: 'cycles',
+  emoji: 'emoji',
+  tags: 'tags',
+  feeling: 'feeling'
+} as const
+
+export type FocusSessionScalarFieldEnum = (typeof FocusSessionScalarFieldEnum)[keyof typeof FocusSessionScalarFieldEnum]
 
 
 export const SortOrder = {

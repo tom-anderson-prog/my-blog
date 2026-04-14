@@ -86,3 +86,8 @@ export type Routine = Prisma.RoutineModel
  * 
  */
 export type WorkoutSession = Prisma.WorkoutSessionModel
+/**
+ * Model FocusSession
+ * 
+ */
+export type FocusSession = Prisma.FocusSessionModel

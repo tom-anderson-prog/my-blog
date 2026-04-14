@@ -163,3 +163,21 @@ model WorkoutSession {
 
   @@map("workout_session")
 }
+
+// ==============================
+// Pomodoro Models
+// ==============================
+model FocusSession {
+  id Int @id @default(autoincrement())
+  startTime DateTime @map("start_time")
+  endTime DateTime @map("end_time")
+  mode String @default("pomodoro")
+  shortBreak Int? @map("short_break")
+  longBreak Int? @map("long_break")
+  longBreakAfterNumCycles Int? @default(1) @map("long_break_after_num_cycles") 
+  pomodoroDuration Int? @map("pomodoro_duration")
+  cycles Int? @default(1)
+  emoji Int
+  tags String[]
+  feeling String
+}

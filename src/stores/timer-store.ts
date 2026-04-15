@@ -1,9 +1,9 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
-type FocusMode = "pomodoro" | "stopwatch";
+export type FocusMode = "pomodoro" | "stopwatch";
 
-interface TimerConfig {
+export interface TimerConfig {
   shortBreak: number;
   longBreak: number;
   longBreakAfterNumCycles: number;
@@ -16,13 +16,14 @@ interface TimerState {
   mode: FocusMode;
   isRunning: boolean;
   isActive: boolean;
+  isCompleted: boolean;
+  startTime: Date | null;
   timeLeft: number;
   totalTimeOfStopWatch: number;
 
   currentCycle: number;
   isBreak: boolean;
   isLongBreak: boolean;
-
   config: TimerConfig;
 
   setMode: (mode: FocusMode) => void;
@@ -42,9 +43,11 @@ export const useTimerStore = create<TimerState>()(
       isRunning: false,
       timeLeft: 25 * 60,
       currentCycle: 1,
+      startTime: null,
       isBreak: false,
       isLongBreak: false,
       isActive: false,
+      isCompleted: false,
       config: {
         shortBreak: 5,
         longBreak: 30,
@@ -62,6 +65,7 @@ export const useTimerStore = create<TimerState>()(
           isRunning: false,
           timeLeft: config.pomodoroDuration * 60,
           totalTimeOfStopWatch: 0,
+          isCompleted: false,
         });
       },
       start: () => {
@@ -71,6 +75,8 @@ export const useTimerStore = create<TimerState>()(
           isRunning: true,
           timeLeft: config.pomodoroDuration * 60,
           totalTimeOfStopWatch: 0,
+          startTime: new Date(),
+          isCompleted: false,
         });
       },
       pause: () => {
@@ -84,32 +90,31 @@ export const useTimerStore = create<TimerState>()(
         });
       },
       end: () => {
-        const { mode, timeLeft } = get();
-        if (mode === "pomodoro") {
-          if(timeLeft > 0) {
-
-          } else {
-            set({
-              isActive: false,
-              isRunning: false,
-            });
-          }
-        } else {
-          set({
-            isActive: false,
-            isRunning: false,
-          });
-        }
-      },
-      resetTimer: () => {
         const { config } = get();
         set({
+          isActive: false,
           isRunning: false,
+          isCompleted: true,
           timeLeft: config.pomodoroDuration * 60,
           currentCycle: 1,
           isBreak: false,
           isLongBreak: false,
           totalTimeOfStopWatch: 0,
+          startTime: null,
+        });
+      },
+      resetTimer: () => {
+        const { config } = get();
+        set({
+          isActive: false,
+          isRunning: false,
+          isCompleted: false,
+          timeLeft: config.pomodoroDuration * 60,
+          currentCycle: 1,
+          isBreak: false,
+          isLongBreak: false,
+          totalTimeOfStopWatch: 0,
+          startTime: null,
         });
       },
       tick: () => {
@@ -141,15 +146,39 @@ export const useTimerStore = create<TimerState>()(
                 (shouldLongBreak ? config.longBreak : config.shortBreak) * 60,
             });
           } else {
-            if (currentCycle < config.cycles) {
+            if (!config.isAutoCycle) {
               set({
+                isActive: false,
+                isRunning: false,
+                isCompleted: true,
+                timeLeft: config.pomodoroDuration * 60,
+                currentCycle: 1,
                 isBreak: false,
                 isLongBreak: false,
-                currentCycle: currentCycle + 1,
-                timeLeft: config.pomodoroDuration * 60,
+                totalTimeOfStopWatch: 0,
+                startTime: null,
               });
             } else {
-              set({ isRunning: false });
+              if (currentCycle < config.cycles) {
+                set({
+                  isBreak: false,
+                  isLongBreak: false,
+                  currentCycle: currentCycle + 1,
+                  timeLeft: config.pomodoroDuration * 60,
+                });
+              } else {
+                set({
+                  isActive: false,
+                  isRunning: false,
+                  isCompleted: true,
+                  timeLeft: config.pomodoroDuration * 60,
+                  currentCycle: 1,
+                  isBreak: false,
+                  isLongBreak: false,
+                  totalTimeOfStopWatch: 0,
+                  startTime: null,
+                });
+              }
             }
           }
         }

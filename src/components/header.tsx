@@ -67,6 +67,11 @@ export default function Header() {
             Fitness
           </Link>
           <Link
+            href="/pomodoro"
+            className="p-2 rounded-md hover:bg-[#f3f4f6] hover:text-foreground/80 transition-all duration-200">
+            Pomodoro
+          </Link>
+          <Link
             href="/about"
             className="p-2 rounded-md hover:bg-[#f3f4f6] hover:text-foreground/80 transition-all duration-200">
             About Me

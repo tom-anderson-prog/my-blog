@@ -17,25 +17,40 @@ interface ConfirmStore {
   title: string;
   message: string;
   onConfirm: () => void;
-  confirm: (title: string, message: string, onConfirm: () => void) => void;
+  onCancel?: () => void;
+  confirm: (
+    title: string,
+    message: string,
+    onConfirm: () => void,
+    onCancel?: () => void,
+  ) => void;
   close: () => void;
 }
 
-export const useConfirm = create<ConfirmStore>((set) => ({
+export const useConfirm = create<ConfirmStore>((set, get) => ({
   isOpen: false,
   title: "",
   message: "",
   onConfirm: () => {},
-  confirm: (title, message, onConfirm) =>
-    set({ isOpen: true, title, message, onConfirm }),
-  close: () => set({ isOpen: false }),
+  onCancel: undefined,
+  confirm: (title, message, onConfirm, onCancel) =>
+    set({ isOpen: true, title, message, onConfirm, onCancel }),
+  close: () => {
+    const { onCancel } = get();
+    if (onCancel) onCancel();
+    set({ isOpen: false, onCancel: undefined });
+  },
 }));
 
 export function GlobalConfirmModal() {
   const { isOpen, title, message, onConfirm, close } = useConfirm();
 
   return (
-    <AlertDialog open={isOpen} onOpenChange={close}>
+    <AlertDialog
+      open={isOpen}
+      onOpenChange={(open) => {
+        if (!open) close();
+      }}>
       <AlertDialogContent className="max-w-100 rounded-2xl border-none shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <AlertDialogHeader className="space-y-3">
           <AlertDialogTitle className="text-xl font-bold tracking-tight text-slate-900">
@@ -55,7 +70,10 @@ export function GlobalConfirmModal() {
             className="h-11 flex-1 rounded-2xl bg-red-500 font-medium text-white transition-all hover:bg-red-600 active:scale-95 sm:flex-none sm:px-8"
             onClick={() => {
               onConfirm();
-              close();
+              useConfirm.setState({
+                isOpen: false,
+                onCancel: undefined,
+              });
             }}>
             Confirm
           </AlertDialogAction>

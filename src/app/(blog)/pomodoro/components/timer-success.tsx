@@ -1,9 +1,11 @@
 "use client";
 
+import { useSession } from "@/lib/auth-client";
 import type { FocusMode, TimerConfig } from "@/stores/timer-store";
 import { intervalToDuration } from "date-fns";
 import { motion, type Variants } from "framer-motion";
 import { Play } from "lucide-react";
+import { TimerFeelForm } from "./timer-feel-form";
 
 export default function TimerSuccessPage({
   onRestart,
@@ -18,6 +20,7 @@ export default function TimerSuccessPage({
   mode: FocusMode;
   totalTimeOfStopWatch: number;
 }) {
+  const { data: session } = useSession();
   let m = "";
   let s = "";
 
@@ -73,27 +76,35 @@ export default function TimerSuccessPage({
         You&apos;ve completed your focus session.
       </motion.p>
 
-      <motion.div variants={itemVars} className="w-full mb-16">
-        <div className="flex flex-col justify-center items-center">
-          <div className="text-lg text-slate-200 tracking-widest">Focus Total Time</div>
-          <div className="text-[10rem] font-light">
-            {m}:{s}
-          </div>
-        </div>
-      </motion.div>
+      {session ? (
+        <TimerFeelForm />
+      ) : (
+        <>
+          <motion.div variants={itemVars} className="w-full mb-16">
+            <div className="flex flex-col justify-center items-center">
+              <div className="text-lg text-slate-200 tracking-widest">
+                Focus Total Time
+              </div>
+              <div className="text-[10rem] font-light">
+                {m}:{s}
+              </div>
+            </div>
+          </motion.div>
 
-      <motion.div
-        variants={itemVars}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}>
-        <button
-          type="button"
-          onClick={onRestart}
-          className="group px-10 py-4 rounded-2xl bg-linear-to-r from-[#FF6B35] to-[#FF2B81] hover:scale-110 active:scale-90 text-white cursor-pointer text-lg font-bold shadow-lg shadow-orange-200 transition-all mb-4 flex justify-center items-center gap-1">
-          <Play className="w-2 h-2 fill-current" />
-          START AGAIN
-        </button>
-      </motion.div>
+          <motion.div
+            variants={itemVars}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}>
+            <button
+              type="button"
+              onClick={onRestart}
+              className="group px-10 py-4 rounded-2xl bg-linear-to-r from-[#FF6B35] to-[#FF2B81] hover:scale-110 active:scale-90 text-white cursor-pointer text-lg font-bold shadow-lg shadow-orange-200 transition-all mb-4 flex justify-center items-center gap-1">
+              <Play className="w-2 h-2 fill-current" />
+              START AGAIN
+            </button>
+          </motion.div>
+        </>
+      )}
     </motion.div>
   );
 }

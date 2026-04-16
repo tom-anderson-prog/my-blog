@@ -100,7 +100,6 @@ export const useTimerStore = create<TimerState>()(
           isBreak: false,
           isLongBreak: false,
           totalTimeOfStopWatch: 0,
-          startTime: null,
         });
       },
       resetTimer: () => {
@@ -114,7 +113,6 @@ export const useTimerStore = create<TimerState>()(
           isBreak: false,
           isLongBreak: false,
           totalTimeOfStopWatch: 0,
-          startTime: null,
         });
       },
       tick: () => {
@@ -156,7 +154,6 @@ export const useTimerStore = create<TimerState>()(
                 isBreak: false,
                 isLongBreak: false,
                 totalTimeOfStopWatch: 0,
-                startTime: null,
               });
             } else {
               if (currentCycle < config.cycles) {
@@ -176,7 +173,6 @@ export const useTimerStore = create<TimerState>()(
                   isBreak: false,
                   isLongBreak: false,
                   totalTimeOfStopWatch: 0,
-                  startTime: null,
                 });
               }
             }

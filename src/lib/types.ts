@@ -101,3 +101,23 @@ export const articleSchema = z.object({
 export type ArticleFormValues = z.infer<typeof articleSchema>;
 
 export type WorkoutSessionFormValues = Omit<WorkoutSession, "id">;
+
+export const focusSessionSchema = z.object({
+  emoji: z.number(),
+  feeling: z
+    .string()
+    .min(10, "Feeling is too short")
+    .max(200, "Feeling is too long"),
+  tags: z.array(z.string()).nonempty("Tags is empty"),
+});
+
+export type FocusSessionFormValues = z.infer<typeof focusSessionSchema> & {
+  startTime: Date;
+  endTime: Date;
+  mode: "pomodoro" | "stopwatch";
+  shortBreak?: number;
+  longBreak?: number;
+  longBreakAfterNumCycles?: number;
+  pomodoroDuration?: number;
+  cycles?: number;
+};

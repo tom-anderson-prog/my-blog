@@ -7,6 +7,7 @@ import { TimerDisplay } from "./timer-display";
 import { TimerButtons } from "./timer-buttons";
 import TimerSuccessPage from "./timer-success";
 import { Suspense } from "react";
+import { AudioPlayer } from "./audio-player";
 
 export default function TimerContentPage() {
   const isCompleted = useTimerStore((state) => state.isCompleted);
@@ -41,6 +42,7 @@ export default function TimerContentPage() {
               <TimerDisplay />
             </div>
             <TimerButtons />
+            <AudioPlayer />
           </motion.div>
         ) : (
           <motion.div

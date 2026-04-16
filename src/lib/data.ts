@@ -3,6 +3,7 @@ import prisma from "./prisma";
 import {
   ArticleFormValues,
   CategoryInput,
+  FocusSessionFormValues,
   PhotoFormValues,
   RoutineFormValues,
   WorkoutSessionFormValues,
@@ -384,3 +385,17 @@ export const createWorkout = async (data: WorkoutSessionFormValues) => {
 
   return result;
 };
+
+
+// ==============================
+// focus session apis
+// ==============================
+export const createFocusSession = async (data: FocusSessionFormValues) => {
+  const result = await prisma.focusSession.create({
+    data
+  })
+
+  console.log(result);
+
+  return result;
+}

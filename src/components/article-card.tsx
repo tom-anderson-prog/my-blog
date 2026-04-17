@@ -94,7 +94,7 @@ export default function ArticleCard({
                 />
               </div>
 
-              <div className="space-y-1">
+              <div className="flex-1 min-w-0 space-y-1">
                 <div className="text-xl font-semibold text-slate-600 group-hover:text-slate-900 transition-all duration-300 truncate">
                   {article.title}
                 </div>

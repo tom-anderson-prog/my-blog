@@ -62,7 +62,7 @@ export const NumberInput = ({
         value={value === 0 ? "" : value}
         onChange={handleInputChange}
         readOnly={!allowInput}
-        className={`w-12 h-10 border-none bg-transparent text-center font-bold text-lg ${allowInput ? "cursor-text" : "cursor-default select-none"} focus-visible:ring-0 focus-visible:ring-offset-0`}
+        className={`w-12 h-10 border-none bg-transparent text-center font-bold text-md md:text-lg ${allowInput ? "cursor-text" : "cursor-default select-none"} focus-visible:ring-0 focus-visible:ring-offset-0`}
       />
 
       <button

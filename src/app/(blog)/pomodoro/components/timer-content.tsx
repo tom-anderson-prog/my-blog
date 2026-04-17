@@ -30,7 +30,7 @@ export default function TimerContentPage() {
             transition={{ duration: 0.4, ease: "easeInOut" }}
             onAnimationStart={() => window.scrollTo(0, 0)}
             className="relative w-full flex flex-col items-center justify-center">
-            <div className="absolute top-30 inset-0 flex items-center justify-center z-1 opacity-[0.03] select-none overflow-visible pointer-events-none">
+            <div className="absolute top-20 md:top-30 inset-0 flex items-center justify-center z-1 opacity-[0.03] select-none overflow-visible pointer-events-none">
               <span className="text-[20vw] font-black italic tracking-tighter text-gray-900 leading-none">
                 Focus
               </span>

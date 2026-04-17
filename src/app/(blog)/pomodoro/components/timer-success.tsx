@@ -34,7 +34,8 @@ export default function TimerSuccessPage({
   } else {
     const now = new Date();
 
-    const duration1 = now.getTime() - (startTime ? startTime.getTime() : 0);
+    const startMs = !startTime ? now.getTime() : startTime?.getTime();
+    const duration1 = now.getTime() - startMs;
 
     const duration2 = config.pomodoroDuration * 60 * config.cycles * 1000;
     const duration = intervalToDuration({
@@ -67,7 +68,7 @@ export default function TimerSuccessPage({
       className="w-full flex flex-col justify-start items-center pt-10 px-4 md:px-8 max-w-4xl mx-auto">
       <motion.h1
         variants={itemVars}
-        className="text-4xl md:text-9xl bg-clip-text text-transparent bg-linear-to-r from-[#FF6B35] to-[#FF2B81] mb-3 tracking-tight">
+        className="text-6xl md:text-9xl bg-clip-text text-transparent bg-linear-to-r from-[#FF6B35] to-[#FF2B81] mb-6 md:mb-3 tracking-tight">
         Well Done!
       </motion.h1>
       <motion.p
@@ -85,7 +86,7 @@ export default function TimerSuccessPage({
               <div className="text-lg text-slate-200 tracking-widest">
                 Focus Total Time
               </div>
-              <div className="text-[10rem] font-light">
+              <div className="text-[22vw] sm:text-[23vw] md:text-[18rem] lg:text-[22rem]  font-light">
                 {m}:{s}
               </div>
             </div>

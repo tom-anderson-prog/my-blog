@@ -20,9 +20,9 @@ export const TimerDigit = ({
       <AnimatePresence mode="popLayout">
         <motion.span
           key={value}
-          initial={{ y: "100%", opacity: 0 }}
+          initial={{ y: "80%", opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          exit={{ y: "-100%", opacity: 0 }}
+          exit={{ y: "-80%", opacity: 0 }}
           transition={{ duration: 0.3, ease: "circOut" }}
           className={`inline-block select-none leading-none`}
           style={{

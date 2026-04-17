@@ -34,7 +34,7 @@ export const TimerDisplay = () => {
 
   return (
     <div className="z-10 flex flex-col items-center justify-center pb-20">
-      <div className="relative flex items-center justify-center text-[20rem] font-extralight overflow-visible leading-none">
+      <div className="relative flex items-center justify-center text-[22vw] sm:text-[23vw] md:text-[18rem] lg:text-[22rem] font-extralight overflow-visible leading-none">
         <div className="flex">
           <TimerDigit value={m[0]} position={0} totalDigits={m.length + 2} />
           <TimerDigit value={m[1]} position={1} totalDigits={m.length + 2} />
@@ -42,7 +42,7 @@ export const TimerDisplay = () => {
             <TimerDigit value={m[2]} position={2} totalDigits={m.length + 2} />
           )}
         </div>
-        <span className="w-[0.5ch] text-[#f76934] flex justify-center translate-y-[-0.05rem]">
+        <span className="w-[0.5ch] text-[#f76934] flex justify-center translate-y-[-0.05rem] opacity-80">
           :
         </span>
         <div className="flex">
@@ -58,14 +58,14 @@ export const TimerDisplay = () => {
           />
         </div>
         {!isRunning && (
-          <div className="absolute -top-20 right-0 -translate-y-1/2">
+          <div className="absolute -top-12 sm:-top-20 right-0 sm:-translate-y-1/2 translate-x-3/4 sm:translate-x-0">
             <PomodoroSettingModal />
           </div>
         )}
       </div>
 
       {mode === "pomodoro" && (
-        <p className="absolute bottom-10 text-gray-400 text-sm font-medium tracking-tight uppercase">
+        <p className="absolute bottom-12 md:bottom-10 text-gray-400 text-sm font-medium tracking-tight uppercase">
           {isBreak ? "Break Time" : "Deep Work Session"}
         </p>
       )}

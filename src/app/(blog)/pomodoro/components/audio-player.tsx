@@ -5,9 +5,8 @@ import { useEffect, useRef } from "react";
 
 export const AudioPlayer = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const { isBreak, isActive, mode } = useTimerStore();
+  const { isBreak, mode } = useTimerStore();
   const prevIsBreak = useRef(isBreak);
-  const prevIsActive = useRef(isActive)
 
   useEffect(() => {
     if (!audioRef.current) {
@@ -34,19 +33,16 @@ export const AudioPlayer = () => {
       audio.addEventListener("timeupdate", onTimeUpdate);
     };
 
-    if (mode === "pomodoro" && isActive) {
-      if(!prevIsActive.current && !isBreak) {
-        playSegment(11, 20)
-      } else if (isBreak && !prevIsBreak.current) {
-        playSegment(0, 10);
+    if (mode === "pomodoro") {
+      if (isBreak && !prevIsBreak.current) {
+        playSegment(1, 8);
       } else if (!isBreak && prevIsBreak.current) {
         playSegment(11, 20);
       }
     }
 
     prevIsBreak.current = isBreak;
-    prevIsActive.current = isActive;
-  }, [isActive, isBreak, mode]);
+  }, [isBreak, mode]);
 
   return null;
 };

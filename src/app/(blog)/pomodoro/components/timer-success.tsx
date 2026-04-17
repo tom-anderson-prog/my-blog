@@ -86,7 +86,7 @@ export default function TimerSuccessPage({
               <div className="text-lg text-slate-200 tracking-widest">
                 Focus Total Time
               </div>
-              <div className="text-[22vw] sm:text-[23vw] md:text-[18rem] lg:text-[22rem]  font-light">
+              <div className="text-[22vw] sm:text-[23vw] md:text-[16vw] lg:text-[12vw]  font-light">
                 {m}:{s}
               </div>
             </div>

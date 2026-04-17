@@ -63,11 +63,11 @@ export function GlobalConfirmModal() {
         <AlertDialogFooter className="mt-6 flex gap-3 sm:justify-end">
           <AlertDialogCancel
             onClick={close}
-            className="h-11 flex-1 rounded-2xl border-slate-200 bg-slate-50 font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 sm:flex-none sm:px-6">
+            className="py-2 md:py-4 flex-1 rounded-2xl border-slate-200 bg-slate-50 font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 sm:flex-none sm:px-6">
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="h-11 flex-1 rounded-2xl bg-red-500 font-medium text-white transition-all hover:bg-red-600 active:scale-95 sm:flex-none sm:px-8"
+            className="py-2 md:py-4 flex-1 rounded-2xl bg-red-500 font-medium text-white transition-all hover:bg-red-600 active:scale-95 sm:flex-none sm:px-8"
             onClick={() => {
               onConfirm();
               useConfirm.setState({
